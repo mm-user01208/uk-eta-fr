@@ -1,0 +1,51 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  structuredData?: object;
+  breadcrumbs?: { label: string; href?: string }[];
+  relatedArticles?: { title: string; href: string }[];
+}
+
+const { title, description, structuredData, breadcrumbs = [], relatedArticles = [] } = Astro.props;
+---
+
+<Layout title={title} description={description} structuredData={structuredData}>
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    {breadcrumbs.length > 0 && (
+      <nav class="text-sm text-gray-500 mb-6" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap gap-1">
+          <li><a href="/" class="hover:underline">Accueil</a></li>
+          {breadcrumbs.map((crumb, i) => (
+            <li class="flex items-center gap-1">
+              <span>›</span>
+              {crumb.href ? <a href={crumb.href} class="hover:underline">{crumb.label}</a> : <span class="text-gray-700">{crumb.label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="flex flex-col lg:flex-row gap-8">
+      <article class="flex-1 prose prose-lg max-w-none">
+        <h1 class="text-3xl font-bold text-[#1e3a5f] mb-6">{title}</h1>
+        <slot />
+      </article>
+
+      {relatedArticles.length > 0 && (
+        <aside class="lg:w-72 shrink-0">
+          <div class="bg-gray-50 rounded-lg p-6 sticky top-8">
+            <h3 class="font-bold text-[#1e3a5f] mb-4">Articles connexes</h3>
+            <ul class="space-y-2 text-sm">
+              {relatedArticles.map((a) => (
+                <li><a href={a.href} class="text-blue-700 hover:underline">{a.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,84 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+const breadcrumbs = [
+  { label: "ETA Royaume-Uni", href: "/eta/" },
+  { label: "Questions fréquentes" }
+];
+const relatedArticles = [
+  { title: "Qu'est-ce que l'ETA ?", href: "/eta/qu-est-ce-que-eta/" },
+  { title: "Procédure de demande", href: "/eta/procedure-demande/" },
+  { title: "Tarifs et paiement", href: "/eta/tarif/" },
+  { title: "Validité et délais", href: "/eta/validite-et-delai/" },
+];
+
+const faqData = [
+  {
+    question: "L'ETA est-elle obligatoire pour les citoyens français ?",
+    answer: "Oui, depuis le 2 avril 2025, l'ETA (Electronic Travel Authorisation) est obligatoire pour tous les citoyens français souhaitant se rendre au Royaume-Uni. Cette obligation s'applique à tous les voyageurs sans exception, y compris les enfants et les nourrissons. Tout voyageur français doit obtenir son ETA avant de quitter la France, que ce soit pour un séjour touristique, un voyage d'affaires ou une visite familiale. L'absence d'ETA valide peut entraîner un refus d'embarquement par la compagnie aérienne ou un refus d'entrée à la frontière britannique."
+  },
+  {
+    question: "Combien de temps faut-il pour obtenir l'ETA ?",
+    answer: "Le délai de traitement standard est de 3 jours ouvrables (du lundi au vendredi, hors jours fériés britanniques). Dans la grande majorité des cas, les demandes sont traitées dans ce délai. Cependant, certaines demandes peuvent nécessiter des vérifications supplémentaires, auquel cas le processus peut prendre jusqu'à 30 jours. Nous recommandons de soumettre votre demande au minimum 3 jours avant votre départ, et idéalement 2 à 4 semaines à l'avance pour éviter tout stress lié aux délais."
+  },
+  {
+    question: "Quand le système ETA a-t-il été mis en place ?",
+    answer: "Le système ETA du Royaume-Uni a été déployé en plusieurs phases. Il a d'abord été lancé pour les ressortissants du Qatar en novembre 2023, puis étendu aux ressortissants du Koweït, de Bahreïn, d'Oman, des Émirats arabes unis et de l'Arabie saoudite début 2024. Pour les citoyens européens, y compris les Français, l'ETA est obligatoire depuis le 2 avril 2025. Ce déploiement progressif a permis aux autorités britanniques de tester et d'optimiser le système avant son ouverture à l'ensemble des pays éligibles."
+  },
+  {
+    question: "Quelle est la durée de validité de l'ETA ?",
+    answer: "L'ETA est valable pendant 2 ans (24 mois) à compter de la date de délivrance. Pendant cette période, vous pouvez effectuer un nombre illimité d'entrées au Royaume-Uni. Toutefois, si votre passeport expire avant la fin de la période de validité de 2 ans, votre ETA expire en même temps que votre passeport. Vous devrez alors faire une nouvelle demande d'ETA avec votre nouveau passeport. Chaque séjour individuel ne peut pas dépasser 6 mois."
+  },
+  {
+    question: "Quand dois-je faire ma demande d'ETA ?",
+    answer: "Nous recommandons de faire votre demande le plus tôt possible après avoir confirmé votre projet de voyage. Le minimum absolu est de 3 jours ouvrables avant votre date de départ, mais nous conseillons un délai de 2 à 4 semaines pour parer à d'éventuelles vérifications supplémentaires. L'ETA étant valable 2 ans avec des entrées multiples, il n'y a aucun inconvénient à la demander bien à l'avance, même si votre voyage n'est pas encore totalement planifié."
+  },
+  {
+    question: "Quelle est la durée maximale d'un séjour au Royaume-Uni avec une ETA ?",
+    answer: "Avec une ETA, la durée maximale autorisée par séjour est de 6 mois (180 jours). Cette durée s'applique à chaque entrée individuelle sur le territoire britannique. À l'issue des 6 mois, vous devez quitter le Royaume-Uni. Vous pouvez y retourner ultérieurement pour un nouveau séjour de 6 mois maximum, tant que votre ETA reste valide. Pour les séjours de plus de 6 mois (études longues, travail, résidence), un visa classique est nécessaire."
+  }
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqData.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+---
+<ArticleLayout title="Questions fréquentes sur l'ETA pour le Royaume-Uni" description="Réponses aux questions les plus courantes sur l'ETA britannique : obligation, délais, validité, coût et procédure." breadcrumbs={breadcrumbs} relatedArticles={relatedArticles} structuredData={structuredData}>
+
+<p>Retrouvez ci-dessous les réponses aux questions les plus fréquemment posées par les voyageurs français concernant l'ETA (Electronic Travel Authorisation) pour le Royaume-Uni.</p>
+
+{faqData.map((item) => (
+  <div class="mb-8 border-b pb-6">
+    <h2 class="text-xl font-bold text-[#1e3a5f] mb-3">{item.question}</h2>
+    <p class="text-gray-700 leading-relaxed">{item.answer}</p>
+  </div>
+))}
+
+<h2>Autres questions</h2>
+
+<h3>Puis-je utiliser ma carte d'identité pour me rendre au Royaume-Uni ?</h3>
+<p>Non, depuis le 1er octobre 2021, la carte nationale d'identité française n'est plus acceptée pour entrer au Royaume-Uni. Un passeport en cours de validité est obligatoire. Cette règle s'applique à tous les voyageurs européens, sans exception.</p>
+
+<h3>Mon ETA peut-elle être refusée ?</h3>
+<p>Oui, les autorités britanniques peuvent refuser une demande d'ETA pour diverses raisons : antécédents judiciaires, menace pour la sécurité nationale, informations incorrectes dans le formulaire, ou encore dépassements de durée de séjour lors de visites précédentes au Royaume-Uni. En cas de refus, vous pouvez soumettre une nouvelle demande ou envisager une demande de visa classique.</p>
+
+<h3>Dois-je imprimer mon ETA ?</h3>
+<p>Non, l'ETA est un document entièrement numérique lié à votre passeport. Il n'y a rien à imprimer. Les compagnies aériennes et les agents d'immigration vérifient automatiquement la validité de votre ETA à partir du numéro de votre passeport. Toutefois, nous vous recommandons de conserver l'e-mail de confirmation pour vos archives.</p>
+
+<h3>L'ETA est-elle nécessaire pour transiter par le Royaume-Uni ?</h3>
+<p>Cela dépend du type de transit. Si vous restez dans la zone de transit international (transit aérien sans quitter l'aéroport), l'ETA n'est généralement pas requise. En revanche, si vous devez passer les contrôles frontaliers (transit par voie terrestre, Eurostar, ferry, ou changement d'aéroport), l'ETA est obligatoire. Pour plus de détails, consultez notre page <a href="/entree-uk/transit-correspondance/">Transit et correspondance</a>.</p>
+
+<h3>Puis-je travailler au Royaume-Uni avec une ETA ?</h3>
+<p>L'ETA ne permet pas d'exercer une activité rémunérée au Royaume-Uni. Elle est réservée aux séjours touristiques, aux voyages d'affaires (réunions, conférences) et aux visites familiales. Pour travailler au Royaume-Uni, vous devez obtenir un visa de travail approprié. Certaines exceptions existent pour les travailleurs créatifs et les engagements rémunérés ponctuels (voir nos pages <a href="/visa/creative-worker/">Visa travailleur créatif</a> et <a href="/visa/permitted-paid-engagement/">Engagement rémunéré autorisé</a>).</p>
+
+<p>Si votre question ne figure pas dans cette liste, n'hésitez pas à nous contacter via notre page <a href="/contact/">Contact</a>.</p>
+
+</ArticleLayout>

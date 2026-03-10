@@ -1,0 +1,89 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+const breadcrumbs = [
+  { label: "Entrée au Royaume-Uni", href: "/entree-uk/" },
+  { label: "Transit et correspondance" }
+];
+const relatedArticles = [
+  { title: "Aéroport de Heathrow", href: "/entree-uk/aeroport-heathrow/" },
+  { title: "Irlande du Nord et ETA", href: "/entree-uk/irlande-du-nord/" },
+  { title: "Qu'est-ce que l'ETA ?", href: "/eta/qu-est-ce-que-eta/" },
+];
+---
+<ArticleLayout title="Transit et correspondance au Royaume-Uni : quand l'ETA est-elle nécessaire ?" description="Règles de transit au Royaume-Uni : transit aérien en zone internationale, correspondances terrestres, Eurostar et ferry." breadcrumbs={breadcrumbs} relatedArticles={relatedArticles}>
+
+<p>De nombreux voyageurs français transitent par le Royaume-Uni pour se rendre vers d'autres destinations. La question se pose alors : <strong>l'ETA est-elle nécessaire pour un simple transit ?</strong> La réponse dépend du type de transit et de votre itinéraire. Cette page vous explique les différentes situations.</p>
+
+<h2>Transit aérien en zone internationale (Airside)</h2>
+
+<p>Si vous transitez par un aéroport britannique et que vous <strong>restez dans la zone de transit international</strong> (zone « airside », c'est-à-dire sans passer le contrôle des frontières), l'ETA <strong>n'est généralement pas requise</strong>.</p>
+
+<p>Ce type de transit concerne les voyageurs qui :</p>
+<ul>
+<li>Arrivent par un vol international dans un aéroport britannique</li>
+<li>Ont une correspondance vers un autre vol international</li>
+<li>Ne quittent <strong>pas</strong> la zone de transit</li>
+<li>N'ont <strong>pas</strong> besoin de récupérer et ré-enregistrer leurs bagages</li>
+<li>Ne sortent <strong>pas</strong> de l'aéroport</li>
+</ul>
+
+<p>Dans ce cas, vous ne franchissez pas la frontière britannique et n'avez donc pas besoin d'une autorisation d'entrée. Cependant, vérifiez auprès de votre compagnie aérienne que vos bagages sont bien enregistrés jusqu'à votre destination finale et que votre correspondance s'effectue dans le même terminal ou dans un terminal accessible sans passer les contrôles frontaliers.</p>
+
+<h2>Transit avec passage des contrôles frontaliers (Landside)</h2>
+
+<p>L'ETA est <strong>obligatoire</strong> dans toutes les situations suivantes, car elles impliquent un passage des contrôles frontaliers britanniques :</p>
+
+<h3>Changement d'aéroport</h3>
+<p>Si votre correspondance nécessite un <strong>changement d'aéroport</strong> (par exemple, arrivée à Heathrow et départ de Gatwick, ou arrivée à Heathrow Terminal 4 et correspondance nécessitant un passage par les contrôles), vous devrez quitter la zone de transit et passer le contrôle des frontières. L'ETA est alors indispensable.</p>
+
+<h3>Récupération de bagages</h3>
+<p>Si vous devez <strong>récupérer vos bagages</strong> pour les ré-enregistrer sur un autre vol (ce qui est souvent le cas lorsque les deux vols ne sont pas opérés par la même compagnie ou la même alliance), vous devrez passer les contrôles frontaliers pour accéder au hall de récupération des bagages. L'ETA est requise.</p>
+
+<h3>Sortie de l'aéroport</h3>
+<p>Si vous souhaitez <strong>quitter l'aéroport</strong> pendant votre escale, que ce soit pour visiter la ville, rejoindre un hôtel ou simplement vous promener, vous devrez évidemment passer les contrôles frontaliers et l'ETA est nécessaire.</p>
+
+<h2>Transit par l'Eurostar</h2>
+
+<p>L'<strong>Eurostar</strong> relie Paris (Gare du Nord) à Londres (St Pancras International) en passant sous la Manche. Tout voyage en Eurostar implique un <strong>passage des contrôles frontaliers britanniques</strong>, qui s'effectuent côté français (contrôles juxtaposés à la Gare du Nord).</p>
+
+<p>Par conséquent, <strong>l'ETA est obligatoire</strong> pour tout voyage en Eurostar, y compris si vous ne faites que transiter par Londres pour vous rendre dans une autre ville britannique. Vous passerez le contrôle des frontières britanniques avant même de monter dans le train, à la Gare du Nord à Paris.</p>
+
+<p>De même, si vous prenez l'Eurostar de Paris à <strong>Bruxelles</strong> ou <strong>Amsterdam</strong> via un itinéraire passant par le Royaume-Uni, vérifiez si le train s'arrête sur le sol britannique et si un contrôle frontalier est effectué.</p>
+
+<h2>Transit par ferry</h2>
+
+<p>Les traversées en <strong>ferry</strong> entre la France et le Royaume-Uni (Calais-Douvres, Dieppe-Newhaven, etc.) impliquent systématiquement un passage des contrôles frontaliers britanniques au port d'arrivée. L'ETA est donc <strong>toujours obligatoire</strong> pour les passagers de ferry arrivant au Royaume-Uni.</p>
+
+<p>Cela s'applique également aux passagers utilisant le <strong>tunnel sous la Manche</strong> (Eurotunnel / Le Shuttle) pour traverser avec leur véhicule. Les contrôles frontaliers sont effectués à Calais avant l'embarquement.</p>
+
+<h2>Récapitulatif des situations</h2>
+
+<table class="w-full border-collapse mb-6">
+<thead>
+<tr class="bg-gray-100">
+<th class="border p-3 text-left">Situation</th>
+<th class="border p-3 text-center">ETA requise ?</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="border p-3">Transit aérien en zone internationale (même terminal, bagages en correspondance)</td><td class="border p-3 text-center">Non</td></tr>
+<tr><td class="border p-3">Changement d'aéroport pendant l'escale</td><td class="border p-3 text-center">Oui</td></tr>
+<tr><td class="border p-3">Récupération et ré-enregistrement des bagages</td><td class="border p-3 text-center">Oui</td></tr>
+<tr><td class="border p-3">Sortie de l'aéroport pendant l'escale</td><td class="border p-3 text-center">Oui</td></tr>
+<tr><td class="border p-3">Voyage en Eurostar</td><td class="border p-3 text-center">Oui</td></tr>
+<tr><td class="border p-3">Ferry ou Eurotunnel vers le Royaume-Uni</td><td class="border p-3 text-center">Oui</td></tr>
+</tbody>
+</table>
+
+<h2>Conseils pratiques</h2>
+
+<ul>
+<li><strong>En cas de doute</strong>, demandez votre ETA. Elle est valable 2 ans et couvre les entrées multiples, donc même si elle n'est finalement pas nécessaire pour votre transit, elle vous sera utile pour de futurs voyages.</li>
+<li><strong>Vérifiez votre itinéraire</strong> auprès de votre compagnie aérienne pour savoir si vous devrez passer les contrôles frontaliers.</li>
+<li><strong>Prévoyez du temps</strong> pour les contrôles frontaliers si votre correspondance nécessite un passage aux frontières.</li>
+<li>Les <strong>compagnies aériennes</strong> vérifient la validité de votre ETA avant l'embarquement. Si vous n'en disposez pas et qu'elle est requise, l'embarquement vous sera refusé.</li>
+</ul>
+
+<p>Pour faire votre demande d'ETA, rendez-vous sur notre <a href="/entry/">page de demande</a>. Pour plus d'informations, consultez notre <a href="/eta/faq/">FAQ</a>.</p>
+
+</ArticleLayout>

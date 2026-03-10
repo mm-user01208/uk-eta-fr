@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  structuredData?: object;
+}
+
+const { title, description = "Service de demande d'ETA pour le Royaume-Uni en français. Obtenez votre autorisation de voyage électronique facilement.", structuredData } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  <link rel="alternate" hreflang="fr" href={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  {structuredData && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+</head>
+<body class="min-h-screen flex flex-col bg-white text-gray-800">
+  <header class="bg-[#1e3a5f] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+      <a href="/" class="text-xl font-bold mb-2 md:mb-0">UK ETA Application Site</a>
+      <nav class="flex gap-6 text-sm">
+        <a href="/eta/" class="hover:underline">ETA Royaume-Uni</a>
+        <a href="/eta/tarif/" class="hover:underline">Tarifs</a>
+        <a href="/contact/" class="hover:underline">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <footer class="bg-[#1e3a5f] text-white mt-12">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      <div class="grid md:grid-cols-3 gap-8 text-sm">
+        <div>
+          <h3 class="font-bold mb-2">UK ETA Application Site</h3>
+          <p>Misaki Mori</p>
+          <p>Daiichi Koseikan Bldg.</p>
+          <p>3-14-13 Ginza, Chuo-ku, Tokyo</p>
+          <p>support@uketa-travel.net</p>
+          <p>+81-3-6899-5493</p>
+        </div>
+        <div>
+          <h3 class="font-bold mb-2">Informations légales</h3>
+          <ul class="space-y-1">
+            <li><a href="/info/mentions-legales/" class="hover:underline">Mentions légales</a></li>
+            <li><a href="/info/conditions-generales/" class="hover:underline">Conditions générales</a></li>
+            <li><a href="/info/politique-confidentialite/" class="hover:underline">Politique de confidentialité</a></li>
+            <li><a href="/info/a-propos/" class="hover:underline">À propos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold mb-2">Paiement sécurisé</h3>
+          <p>VISA • Mastercard • JCB • Diners Club • American Express</p>
+          <p class="mt-2 text-xs opacity-75">© 2025 UK ETA Application Site. Tous droits réservés.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

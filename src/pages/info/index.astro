@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const pages = [
+  { title: "Mentions légales", href: "/info/mentions-legales/", desc: "Informations légales sur le prestataire, les tarifs et les conditions d'annulation." },
+  { title: "Conditions générales de services", href: "/info/conditions-generales/", desc: "Droits et obligations des utilisateurs et du prestataire." },
+  { title: "Politique de confidentialité", href: "/info/politique-confidentialite/", desc: "Traitement des données personnelles et droits des utilisateurs (RGPD)." },
+  { title: "À propos de notre service", href: "/info/a-propos/", desc: "Présentation de notre service de demande d'ETA en français." },
+];
+---
+<Layout title="Informations du site — UK ETA Application Site" description="Mentions légales, conditions générales, politique de confidentialité et informations sur notre service de demande d'ETA pour le Royaume-Uni.">
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-[#1e3a5f] mb-8">Informations du site</h1>
+    <div class="grid gap-6">
+      {pages.map(page => (
+        <a href={page.href} class="block p-6 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+          <h2 class="text-xl font-semibold text-[#1e3a5f] mb-2">{page.title}</h2>
+          <p class="text-gray-600">{page.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
