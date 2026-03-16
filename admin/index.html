@@ -1,92 +1,150 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Administration - UK ETA Application Site</title>
-  <style>
-    #login-screen { display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;background:#f5f5f5; }
-    #login-box { background:white;padding:40px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);max-width:400px;width:100%;text-align:center; }
-    #login-box h1 { font-size:20px;color:#012169;margin-bottom:20px; }
-    #login-box p { font-size:13px;color:#666;margin-bottom:20px; }
-    #login-box input { width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;font-size:14px;margin-bottom:15px;box-sizing:border-box; }
-    #login-box button { width:100%;padding:10px;background:#012169;color:white;border:none;border-radius:4px;font-size:14px;cursor:pointer; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UK ETA CMS Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f0f2f5;color:#333}
+.login{display:flex;justify-content:center;align-items:center;height:100vh}
+.login-box{background:#fff;padding:40px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);max-width:400px;width:90%;text-align:center}
+.login-box h1{font-size:22px;color:#012169;margin-bottom:8px}
+.login-box p{font-size:13px;color:#888;margin-bottom:24px}
+.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:16px}
+.login-box button{width:100%;padding:12px;background:#012169;color:#fff;border:none;border-radius:6px;font-size:15px;cursor:pointer;font-weight:600}
+.login-box button:hover{background:#01194f}
+.app{display:none;max-width:1100px;margin:0 auto;padding:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.topbar h1{font-size:20px;color:#012169}
+.topbar button{padding:8px 16px;background:#c8102e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px}
+.file-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:24px}
+.file-card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;transition:box-shadow .2s}
+.file-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.file-card h3{font-size:14px;color:#012169;margin-bottom:4px}
+.file-card p{font-size:11px;color:#999}
+.editor{display:none}
+.editor .bar{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.editor .bar button{padding:8px 20px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600}
+.editor .bar .save{background:#012169;color:#fff}
+.editor .bar .back{background:#e0e0e0;color:#333}
+.editor textarea{width:100%;height:calc(100vh - 180px);padding:16px;font-family:'Courier New',monospace;font-size:13px;border:1px solid #ddd;border-radius:8px;resize:vertical;line-height:1.6}
+.editor .fname{font-size:14px;color:#012169;font-weight:700;flex:1}
+.status{position:fixed;bottom:20px;right:20px;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;display:none;z-index:999}
+.status.ok{background:#d4edda;color:#155724;display:block}
+.status.err{background:#f8d7da;color:#721c24;display:block}
+</style>
 </head>
 <body>
-  <div id="login-screen">
-    <div id="login-box">
-      <h1>UK ETA CMS Admin</h1>
-      <p>GitHub Personal Access Tokenを入力</p>
-      <input id="pat" type="password" placeholder="ghp_xxxx..." />
-      <button onclick="startCMS()">ログイン</button>
-    </div>
+<div id="login" class="login">
+  <div class="login-box">
+    <h1>🇬🇧 UK ETA CMS</h1>
+    <p>GitHub Personal Access Token</p>
+    <input id="pat" type="password" placeholder="ghp_xxxx...">
+    <button onclick="doLogin()">ログイン</button>
   </div>
-  <script>
-    var saved = sessionStorage.getItem("cms_pat");
-    if (saved) { boot(saved); }
+</div>
+<div id="app" class="app">
+  <div class="topbar">
+    <h1>📝 UK ETA CMS</h1>
+    <button onclick="doLogout()">ログアウト</button>
+  </div>
+  <div id="filelist" class="file-list"></div>
+  <div id="editor" class="editor">
+    <div class="bar">
+      <button class="back" onclick="closeEditor()">← 戻る</button>
+      <span class="fname" id="ename"></span>
+      <button class="save" onclick="saveFile()">💾 保存</button>
+    </div>
+    <textarea id="content"></textarea>
+  </div>
+</div>
+<div id="status" class="status"></div>
+<script>
+var REPO="mm-user01208/uk-eta-fr", BRANCH="gh-pages", TOKEN="", SHA={};
+var FILES=[
+  {path:"index.html",label:"🏠 Accueil (トップページ)"},
+  {path:"entry/index.html",label:"📋 Demander l'ETA"},
+  {path:"status/index.html",label:"🔍 Vérifier la demande"},
+  {path:"contact/index.html",label:"📧 Contact"},
+  {path:"eta/qu-est-ce-que-eta/index.html",label:"📖 Qu'est-ce que l'ETA"},
+  {path:"eta/tarif/index.html",label:"💰 Tarif"},
+  {path:"eta/procedure-demande/index.html",label:"📝 Procédure de demande"},
+  {path:"eta/faq/index.html",label:"❓ FAQ"},
+  {path:"eta/pays-eligibles/index.html",label:"🌍 Pays éligibles"},
+  {path:"eta/documents-necessaires/index.html",label:"📄 Documents nécessaires"},
+  {path:"eta/validite-et-delai/index.html",label:"⏰ Validité et délai"},
+  {path:"entree-uk/aeroport-heathrow/index.html",label:"✈️ Aéroport Heathrow"},
+  {path:"entree-uk/transit-correspondance/index.html",label:"🚂 Transit"},
+  {path:"entree-uk/irlande-du-nord/index.html",label:"🍀 Irlande du Nord"},
+  {path:"visa/difference-eta-visa/index.html",label:"🔄 ETA vs Visa"},
+  {path:"visa/creative-worker/index.html",label:"🎨 Creative Worker"},
+  {path:"visa/permitted-paid-engagement/index.html",label:"💼 Permitted Paid Engagement"},
+  {path:"info/a-propos/index.html",label:"ℹ️ À propos"},
+  {path:"info/mentions-legales/index.html",label:"⚖️ Mentions légales"},
+  {path:"info/conditions-generales/index.html",label:"📜 Conditions générales"},
+  {path:"info/politique-confidentialite/index.html",label:"🔒 Politique de confidentialité"}
+];
 
-    function startCMS() {
-      var t = document.getElementById("pat").value.trim();
-      if (!t) return;
-      sessionStorage.setItem("cms_pat", t);
-      boot(t);
-    }
-
-    function boot(token) {
-      document.getElementById("login-screen").style.display = "none";
-      document.body.style.margin = "0";
-      window.CMS_MANUAL_INIT = true;
-      var s = document.createElement("script");
-      s.src = "https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js";
-      s.onload = function() {
-        window.CMS.init({
-          config: {
-            backend: {
-              name: "github",
-              repo: "mm-user01208/uk-eta-fr",
-              branch: "gh-pages"
-            },
-            publish_mode: "simple",
-            media_folder: "images",
-            public_folder: "/uk-eta-fr/images",
-            collections: [
-              {
-                name: "main-pages",
-                label: "Pages principales",
-                files: [
-                  { label: "Accueil", name: "home", file: "index.html",
-                    fields: [{label:"HTML",name:"body",widget:"code",default_language:"html"}] },
-                  { label: "Demander l'ETA", name: "entry", file: "entry/index.html",
-                    fields: [{label:"HTML",name:"body",widget:"code",default_language:"html"}] },
-                  { label: "Vérifier", name: "status", file: "status/index.html",
-                    fields: [{label:"HTML",name:"body",widget:"code",default_language:"html"}] },
-                  { label: "Contact", name: "contact", file: "contact/index.html",
-                    fields: [{label:"HTML",name:"body",widget:"code",default_language:"html"}] }
-                ]
-              }
-            ]
-          }
-        });
-        // Inject token into the backend
-        document.addEventListener("DOMContentLoaded", injectAuth);
-        setTimeout(function() { injectAuth(); }, 500);
-        function injectAuth() {
-          try {
-            var store = localStorage;
-            store.setItem("netlify-cms-user", JSON.stringify({
-              token: token,
-              name: "mm-user01208",
-              login: "mm-user01208",
-              avatar_url: "",
-              backendName: "github"
-            }));
-          } catch(e) {}
-        }
-        injectAuth();
-      };
-      document.head.appendChild(s);
-    }
-  </script>
+function doLogin(){
+  TOKEN=document.getElementById("pat").value.trim();
+  if(!TOKEN)return;
+  sessionStorage.setItem("cms_token",TOKEN);
+  api("repos/"+REPO,"GET").then(function(r){
+    if(r.id){showApp();}else{flash("認証失敗","err");}
+  }).catch(function(){flash("認証失敗","err");});
+}
+function doLogout(){sessionStorage.removeItem("cms_token");location.reload();}
+function showApp(){
+  document.getElementById("login").style.display="none";
+  document.getElementById("app").style.display="block";
+  renderFiles();
+}
+function renderFiles(){
+  var h="";
+  FILES.forEach(function(f){
+    h+='<div class="file-card" onclick="openFile(\''+f.path+'\')"><h3>'+f.label+'</h3><p>'+f.path+'</p></div>';
+  });
+  document.getElementById("filelist").innerHTML=h;
+}
+function openFile(path){
+  document.getElementById("filelist").style.display="none";
+  document.getElementById("editor").style.display="block";
+  document.getElementById("ename").textContent=path;
+  document.getElementById("content").value="読み込み中...";
+  api("repos/"+REPO+"/contents/"+path+"?ref="+BRANCH,"GET").then(function(r){
+    SHA[path]=r.sha;
+    document.getElementById("content").value=atob(r.content.replace(/\n/g,""));
+  }).catch(function(e){document.getElementById("content").value="Error: "+e;});
+}
+function closeEditor(){
+  document.getElementById("filelist").style.display="grid";
+  document.getElementById("editor").style.display="none";
+}
+function saveFile(){
+  var path=document.getElementById("ename").textContent;
+  var body=document.getElementById("content").value;
+  var data={message:"Update "+path+" via CMS",content:btoa(unescape(encodeURIComponent(body))),sha:SHA[path],branch:BRANCH};
+  api("repos/"+REPO+"/contents/"+path,"PUT",data).then(function(r){
+    if(r.content){SHA[path]=r.content.sha;flash("✅ 保存しました","ok");}
+    else{flash("保存エラー: "+JSON.stringify(r),"err");}
+  }).catch(function(e){flash("保存エラー: "+e,"err");});
+}
+function api(endpoint,method,body){
+  return fetch("https://api.github.com/"+endpoint,{
+    method:method||"GET",
+    headers:{"Authorization":"token "+TOKEN,"Accept":"application/vnd.github.v3+json","Content-Type":"application/json"},
+    body:body?JSON.stringify(body):undefined
+  }).then(function(r){return r.json();});
+}
+function flash(msg,type){
+  var el=document.getElementById("status");
+  el.textContent=msg;el.className="status "+type;
+  setTimeout(function(){el.className="status";},3000);
+}
+// Auto-login
+var saved=sessionStorage.getItem("cms_token");
+if(saved){TOKEN=saved;showApp();}
+</script>
 </body>
 </html>
