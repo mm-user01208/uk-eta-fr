@@ -99,6 +99,50 @@ Use the Domain property `eudiasporacouncil.org` and perform these checks in orde
 The URL Inspection screenshot/result and the Page indexing reasons are the
 minimum evidence needed for a definitive diagnosis.
 
+## Search Console evidence received
+
+The URL Inspection screenshots for
+`https://eudiasporacouncil.org/service/` show:
+
+- **URL is not on Google**.
+- Page indexing reason:
+  **URL is unknown to Google**.
+- No previous crawl date or crawler user agent is recorded.
+- Search Console has not detected a referring sitemap or referring page for
+  this URL.
+- No user-declared or Google-selected canonical is recorded because the URL has
+  not yet been crawled.
+
+This is not a crawl rejection, `robots.txt` block, `noindex`, canonical conflict,
+or server failure verdict. It means Google has not yet discovered and crawled
+the URL in this Search Console data set.
+
+The public site was rechecked after receiving the screenshots:
+
+- `/service/` returns HTTP `200` to both a normal client and Googlebot.
+- It declares `index, follow`.
+- Its canonical points to itself.
+- `sitemap_index.xml` is live and references `page-sitemap.xml`.
+- `page-sitemap.xml` explicitly contains `/service/`.
+
+The Search Console statement that no referring sitemap was detected therefore
+indicates that Google has not yet processed/associated the currently published
+sitemap with this property or URL. It does not mean the sitemap file is missing
+from the website.
+
+### Immediate operator actions
+
+1. In URL Inspection, click **Test live URL** for `/service/`.
+2. If the live test says the URL is available to Google, click
+   **Request indexing**.
+3. In **Indexing > Sitemaps**, submit `sitemap_index.xml` under the
+   `eudiasporacouncil.org` Domain property and confirm that its status becomes
+   **Success**.
+4. Repeat URL Inspection and indexing requests for the homepage and the most
+   important content pages after fixing their empty HTML titles.
+5. Check the Page indexing, Manual actions, and Security issues reports before
+   concluding that discovery alone is the only problem.
+
 ## Recommended remediation
 
 1. Fix the theme so WordPress outputs a unique, non-empty `<title>` for every
