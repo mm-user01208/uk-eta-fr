@@ -135,13 +135,22 @@ from the website.
 1. In URL Inspection, click **Test live URL** for `/service/`.
 2. If the live test says the URL is available to Google, click
    **Request indexing**.
-3. In **Indexing > Sitemaps**, submit `sitemap_index.xml` under the
+3. In **Indexing > Sitemaps**, submit the complete URL
+   `https://eudiasporacouncil.org/sitemap_index.xml` under the
    `eudiasporacouncil.org` Domain property and confirm that its status becomes
-   **Success**.
+   **Success**. A Domain property does not supply a fixed URL prefix in this
+   field, so entering only `sitemap_index.xml` produces the
+   **Sitemap address is invalid** error.
 4. Repeat URL Inspection and indexing requests for the homepage and the most
    important content pages after fixing their empty HTML titles.
 5. Check the Page indexing, Manual actions, and Security issues reports before
    concluding that discovery alone is the only problem.
+
+The full sitemap URL was rechecked after the invalid-address screenshot was
+received. It returns HTTP `200` and a valid Yoast XML sitemap index containing
+`page-sitemap.xml` and `page_cat-sitemap.xml`. Its `X-Robots-Tag: noindex,
+follow` response header applies to the sitemap document itself and does not
+prevent Google from crawling or indexing the pages listed in it.
 
 ## Recommended remediation
 
