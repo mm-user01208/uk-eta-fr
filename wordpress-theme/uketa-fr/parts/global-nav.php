@@ -125,6 +125,7 @@ if (function_exists('build_nav_sections_links')) {
           <?php foreach ($sec['links'] as $link): ?>
             <li>
               <a href="<?= esc_url($link['href']) ?>">
+                <span class="mobile-nav-child-marker" aria-hidden="true">&#9654;</span>
                 <?= esc_html($link['label']) ?>
                 <i class="icon icon-rightarrow"></i>
               </a>

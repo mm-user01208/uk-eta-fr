@@ -17,6 +17,7 @@ Target: `https://eudiasporacouncil.org/`
 - Keep the original navy navigation design and distinguish hierarchy through
   indentation: category names begin to the right of the FAQ label, and child
   pages are indented one step farther.
+- Prefix each child-page name with a small visible triangle marker.
 
 ## Implementation
 
@@ -29,6 +30,8 @@ Target: `https://eudiasporacouncil.org/`
   the left and a one-third accordion button on the right.
 - The mobile FAQ opens the taxonomy categories; each category independently
   opens its dynamic WordPress page links.
+- Child-page triangle markers are decorative and hidden from assistive
+  technology so link labels remain concise.
 - The mobile navigation controller is provided by the performance plugin on
   every page. Updated IDs/classes prevent the legacy jQuery handlers from
   firing a second time on lower pages.

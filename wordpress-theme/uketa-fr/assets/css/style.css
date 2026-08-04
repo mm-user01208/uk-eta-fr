@@ -230,6 +230,14 @@ h1,h2,h3,h4,h5,h6{font-weight:700}
     font-size:1.5rem;
     line-height:50px;
   }
+  #global-nav-sp .common-nav li a .mobile-nav-child-marker{
+    display:inline-block;
+    margin-right:8px;
+    color:#fff;
+    font-size:1rem;
+    line-height:1;
+    vertical-align:1px;
+  }
   #global-nav-sp .common-nav li a:hover,
   #global-nav-sp .common-nav li a:focus-visible{
     background:transparent;
