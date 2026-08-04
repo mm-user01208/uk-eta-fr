@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UK ETA Performance
  * Description: Optimises the UK ETA front page's critical rendering path, images, scripts, and static-asset caching.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: UK ETA Application Site
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-const UKETA_PERFORMANCE_VERSION = '1.0.0';
+const UKETA_PERFORMANCE_VERSION = '1.1.0';
 
 /**
  * Return a URL for an asset bundled with this plugin.
@@ -82,6 +82,77 @@ function uketa_performance_tune_front_assets() {
 add_action('wp_enqueue_scripts', 'uketa_performance_tune_front_assets', 100);
 
 /**
+ * Use one accessible mobile-navigation controller on every page.
+ *
+ * The legacy app.js handlers no longer match the updated IDs/classes, which
+ * avoids double toggles on lower pages while keeping the existing desktop and
+ * footer behaviours intact.
+ */
+function uketa_performance_mobile_navigation() {
+  if (is_admin()) {
+    return;
+  }
+  ?>
+  <script id="uketa-mobile-navigation">
+    (function () {
+      'use strict';
+
+      function setPanel(trigger, panel, open) {
+        if (!trigger || !panel) {
+          return;
+        }
+
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        panel.style.display = open ? 'block' : 'none';
+      }
+
+      function togglePanel(trigger, panel) {
+        var open = trigger.getAttribute('aria-expanded') !== 'true';
+        setPanel(trigger, panel, open);
+        return open;
+      }
+
+      var menuButton = document.getElementById('uketa-sp-menu-btn');
+      var mobileNav = document.getElementById('global-nav-sp');
+      if (menuButton && mobileNav) {
+        menuButton.addEventListener('click', function (event) {
+          event.preventDefault();
+          var open = togglePanel(menuButton, mobileNav);
+          var icon = menuButton.querySelector('i');
+          if (icon) {
+            icon.classList.toggle('icon-menu', !open);
+            icon.classList.toggle('icon-close', open);
+          }
+        });
+      }
+
+      var faqToggle = document.querySelector('#global-nav-sp .mobile-nav-toggle');
+      var sectionList = document.getElementById('global-nav-sp-sections');
+      if (faqToggle && sectionList) {
+        faqToggle.addEventListener('click', function (event) {
+          event.preventDefault();
+          togglePanel(faqToggle, sectionList);
+        });
+      }
+
+      document.querySelectorAll('#global-nav-sp .mobile-nav-section-toggle').forEach(function (trigger) {
+        var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+        if (!panel) {
+          return;
+        }
+
+        trigger.addEventListener('click', function () {
+          togglePanel(trigger, panel);
+        });
+      });
+    }());
+  </script>
+  <?php
+}
+add_action('wp_footer', 'uketa_performance_mobile_navigation', 19);
+
+/**
  * Preserve the front-page interactions without the legacy jQuery bundle.
  */
 function uketa_performance_front_interactions() {
@@ -103,22 +174,6 @@ function uketa_performance_front_interactions() {
         return willOpen;
       }
 
-      var menuButton = document.getElementById('sp-menu-btn');
-      var mobileNav = document.getElementById('global-nav-sp');
-      if (menuButton && mobileNav) {
-        menuButton.setAttribute('aria-expanded', 'false');
-        menuButton.addEventListener('click', function (event) {
-          event.preventDefault();
-          var open = toggleDisplay(mobileNav);
-          menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
-          var icon = menuButton.querySelector('i');
-          if (icon) {
-            icon.classList.toggle('icon-menu', !open);
-            icon.classList.toggle('icon-close', open);
-          }
-        });
-      }
-
       var desktopMore = document.querySelector('.global-nav.pc-only .global-nav-more');
       var desktopPanel = document.querySelector('.global-nav.pc-only .global-nav-expand');
       if (desktopMore && desktopPanel) {
@@ -131,23 +186,6 @@ function uketa_performance_front_interactions() {
           });
         });
       }
-
-      document.querySelectorAll('.global-nav.sp-only .global-nav-more').forEach(function (item) {
-        item.addEventListener('click', function (event) {
-          event.preventDefault();
-          toggleDisplay(document.querySelector('.global-nav.sp-only .common-nav'));
-        });
-      });
-
-      document.querySelectorAll('.global-nav.sp-only .common-nav h2 i').forEach(function (icon) {
-        icon.addEventListener('click', function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          toggleDisplay(icon.closest('h2').nextElementSibling);
-          icon.classList.toggle('icon-plus');
-          icon.classList.toggle('icon-hyphen');
-        });
-      });
 
       document.querySelectorAll('footer .common-nav p i').forEach(function (icon) {
         icon.addEventListener('click', function (event) {

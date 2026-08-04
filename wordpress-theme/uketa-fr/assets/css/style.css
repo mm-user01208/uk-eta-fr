@@ -66,3 +66,99 @@ h1,h2,h3,h4,h5,h6{font-weight:700}
 .faq-design-c .faq-list details[open] summary:after{transform:translateY(-50%) rotate(-135deg);top:55%}
 .faq-design-c .faq-list .faq-answer{padding:12px 20px 20px;background:#fff;border-bottom:2px solid #c8102e}
 .faq-design-c .faq-list .faq-answer p{font-size:1.5rem;color:#333;line-height:1.8}
+
+/* FAQ: hide the native disclosure marker and use a clean plus/minus control. */
+.faq-design-a .faq-list summary{list-style:none}
+.faq-design-a .faq-list summary::-webkit-details-marker{display:none}
+.faq-design-a .faq-list summary::marker{content:""}
+.faq-design-a .faq-list summary::after{
+  content:""!important;
+  display:block!important;
+  width:18px!important;
+  height:18px!important;
+  border:0!important;
+  background:
+    linear-gradient(#777,#777) center/14px 2px no-repeat,
+    linear-gradient(#777,#777) center/2px 14px no-repeat;
+  transform:translateY(-50%)!important;
+}
+.faq-design-a .faq-list details[open] summary::after{
+  background:linear-gradient(#777,#777) center/14px 2px no-repeat;
+  transform:translateY(-50%)!important;
+}
+
+/* Replace the removed Material Icons glyph on lower-page return links. */
+.entry .optionlink::before{
+  content:""!important;
+  font-family:inherit!important;
+  width:12px;
+  height:12px;
+  border:0;
+  background:#4b9ae6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m4 2 4 4-4 4' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/12px 12px no-repeat;
+  clip-path:none;
+  text-indent:0;
+  transform:translateY(3px);
+}
+
+/* Mobile navigation: inset panel, shorter separators, and nested accordions. */
+@media screen and (max-width:768px){
+  #global-nav-sp{
+    left:26px;
+    right:0;
+    width:auto;
+    max-height:calc(100vh - 82px);
+    max-height:calc(100dvh - 82px);
+    overflow-y:auto;
+    box-shadow:-12px 14px 28px rgba(0,0,0,.18);
+  }
+  #global-nav-sp>ul>li{position:relative}
+  #global-nav-sp>ul>li::after{
+    content:"";
+    position:absolute;
+    right:20px;
+    bottom:0;
+    left:25px;
+    height:1px;
+    background:rgba(255,255,255,.9);
+  }
+  #global-nav-sp>ul>li>a{border-bottom:0}
+  #global-nav-sp .mobile-nav-chevron{
+    position:absolute;
+    top:50%;
+    right:25px;
+    display:block;
+    width:10px;
+    height:10px;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    transform:translateY(-70%) rotate(45deg);
+    transition:transform .2s ease;
+  }
+  #global-nav-sp [aria-expanded="true"]>.mobile-nav-chevron{
+    transform:translateY(-30%) rotate(225deg);
+  }
+  #global-nav-sp .common-nav h2{
+    margin:0 20px;
+    padding:0;
+  }
+  #global-nav-sp .mobile-nav-section-toggle{
+    position:relative;
+    display:block;
+    width:100%;
+    min-height:50px;
+    padding:0 50px 0 15px;
+    color:#fff;
+    font-size:1.6rem;
+    font-weight:400;
+    line-height:50px;
+    text-align:left;
+    cursor:pointer;
+  }
+  #global-nav-sp .common-nav ul{margin:0 20px}
+  #global-nav-sp .common-nav li{margin:0}
+  #global-nav-sp .common-nav li a{padding-left:28px}
+  #global-nav-sp .mobile-nav-category-link a{
+    color:#dce6fb;
+    font-size:1.4rem;
+  }
+}

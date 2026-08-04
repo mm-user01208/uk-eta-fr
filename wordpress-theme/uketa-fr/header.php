@@ -50,7 +50,13 @@ if (strpos($current_path, '/flow/') !== false) {
         <?php echo function_exists('get_cta_btn') ? get_cta_btn() : ''; ?>
       </div>
 
-      <a id="sp-menu-btn" href="#" class="menu sp-only">
+      <a
+        id="uketa-sp-menu-btn"
+        href="#global-nav-sp"
+        class="menu sp-only"
+        aria-controls="global-nav-sp"
+        aria-expanded="false"
+      >
         <i class="icon icon-menu"></i>
         <span>Menu</span>
       </a>
