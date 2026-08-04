@@ -19,6 +19,20 @@ The custom WordPress plugin in
 - a persistent “Gérer les cookies” control so visitors can change their choice;
 - disabled Google signals, ad personalization signals, and ad-data retention.
 
+### Performance update — 2026-08-04
+
+Version 1.1.0 changed the integration from loading `gtag.js` immediately in
+denied mode to basic consent loading:
+
+- the default denied Consent Mode state is still created before any Google
+  measurement command;
+- a first-time or rejected visitor does not download `gtag.js`;
+- accepting consent dynamically loads and configures `gtag.js` exactly once;
+- a returning visitor with stored granted consent loads GA4 normally.
+
+This removed Google Tag Manager from the clean-profile PageSpeed critical path
+while preserving analytics for visitors who opt in.
+
 The implementation follows Google's requirement to issue the consent
 `default` command before measurement commands and to issue `update` after the
 visitor chooses.

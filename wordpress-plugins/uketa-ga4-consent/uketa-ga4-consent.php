@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UK ETA GA4 Consent
  * Description: Adds GA4 with Consent Mode v2 and a French analytics-cookie consent banner.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: UK ETA Application Site
  */
 
@@ -41,6 +41,26 @@ function uketa_ga4_consent_head() {
       };
 
       var analyticsGranted = storedChoice === 'granted';
+      var tagRequested = false;
+
+      function loadGoogleTag() {
+        if (tagRequested) {
+          return;
+        }
+
+        tagRequested = true;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(<?php echo $measurement_id; ?>);
+        document.head.appendChild(script);
+
+        window.gtag('js', new Date());
+        window.gtag('config', <?php echo $measurement_id; ?>, {
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false
+        });
+      }
 
       window.gtag('consent', 'default', {
         ad_storage: 'denied',
@@ -53,6 +73,7 @@ function uketa_ga4_consent_head() {
 
       window.uketaAnalyticsConsent = {
         choice: storedChoice,
+        load: loadGoogleTag,
         update: function (choice) {
           var granted = choice === 'granted';
 
@@ -70,17 +91,17 @@ function uketa_ga4_consent_head() {
           } catch (error) {
             // Keep the choice for the current page if storage is unavailable.
           }
+
+          if (granted) {
+            loadGoogleTag();
+          }
         }
       };
+
+      if (analyticsGranted) {
+        loadGoogleTag();
+      }
     }());
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr(UKETA_GA4_MEASUREMENT_ID); ?>"></script>
-  <script id="uketa-ga4-config">
-    window.gtag('js', new Date());
-    window.gtag('config', <?php echo $measurement_id; ?>, {
-      allow_google_signals: false,
-      allow_ad_personalization_signals: false
-    });
   </script>
   <?php
 }
