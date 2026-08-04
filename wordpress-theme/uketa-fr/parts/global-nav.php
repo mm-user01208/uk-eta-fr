@@ -101,16 +101,23 @@ if (function_exists('build_nav_sections_links')) {
     <?php foreach ($header_sections as $sec): ?>
       <?php
       $panel_id = 'mobile-nav-section-' . sanitize_html_class($sec['slug']);
+      $section_url = home_url('/page_cat/' . $sec['slug'] . '/');
       ?>
       <section class="sp-only">
-        <h2>
+        <h2 class="mobile-nav-category-row">
+          <span class="mobile-nav-category-label"><?= esc_html($sec['title']) ?></span>
+          <a
+            class="mobile-nav-category-link"
+            href="<?= esc_url($section_url) ?>"
+            aria-label="Voir la catégorie <?= esc_attr($sec['title']) ?>"
+          ></a>
           <button
             type="button"
             class="mobile-nav-section-toggle"
             aria-controls="<?= esc_attr($panel_id) ?>"
             aria-expanded="false"
+            aria-label="Afficher les pages de <?= esc_attr($sec['title']) ?>"
           >
-            <span><?= esc_html($sec['title']) ?></span>
             <span class="mobile-nav-chevron" aria-hidden="true"></span>
           </button>
         </h2>

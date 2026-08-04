@@ -2,7 +2,7 @@
 /**
  * Plugin Name: UK ETA Performance
  * Description: Optimises the UK ETA front page's critical rendering path, images, scripts, and static-asset caching.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: UK ETA Application Site
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-const UKETA_PERFORMANCE_VERSION = '1.1.0';
+const UKETA_PERFORMANCE_VERSION = '1.2.0';
 
 /**
  * Return a URL for an asset bundled with this plugin.
@@ -105,6 +105,11 @@ function uketa_performance_mobile_navigation() {
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
         panel.setAttribute('aria-hidden', open ? 'false' : 'true');
         panel.style.display = open ? 'block' : 'none';
+
+        var categoryRow = trigger.closest('.mobile-nav-category-row');
+        if (categoryRow) {
+          categoryRow.classList.toggle('is-open', open);
+        }
       }
 
       function togglePanel(trigger, panel) {

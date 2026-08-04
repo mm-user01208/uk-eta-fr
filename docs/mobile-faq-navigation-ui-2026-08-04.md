@@ -12,6 +12,10 @@ Target: `https://eudiasporacouncil.org/`
 - Shorten the top-level white separator lines.
 - Add visible chevrons to the mobile FAQ and category controls.
 - Expose each category's child pages when its category control is opened.
+- Make the left half of each category row open its category archive and the
+  right half toggle its child-page accordion.
+- Use separate colours for the FAQ control, category rows, and child links so
+  the three navigation levels remain easy to distinguish.
 
 ## Implementation
 
@@ -20,6 +24,9 @@ Target: `https://eudiasporacouncil.org/`
   removed Material Icons font.
 - Mobile navigation uses explicit `aria-expanded`, `aria-controls`, and
   `aria-hidden` states.
+- Each category row has two equal overlay controls: a category link on the
+  left and an accordion button on the right. The visible category label spans
+  the row without changing those hit areas.
 - The mobile FAQ opens the taxonomy categories; each category independently
   opens its dynamic WordPress page links.
 - The mobile navigation controller is provided by the performance plugin on
