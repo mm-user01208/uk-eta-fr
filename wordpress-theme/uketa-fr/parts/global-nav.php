@@ -101,7 +101,6 @@ if (function_exists('build_nav_sections_links')) {
     <?php foreach ($header_sections as $sec): ?>
       <?php
       $panel_id = 'mobile-nav-section-' . sanitize_html_class($sec['slug']);
-      $section_url = home_url('/page_cat/' . $sec['slug'] . '/');
       ?>
       <section class="sp-only">
         <h2>
@@ -124,12 +123,6 @@ if (function_exists('build_nav_sections_links')) {
               </a>
             </li>
           <?php endforeach; ?>
-          <li class="mobile-nav-category-link">
-            <a href="<?= esc_url($section_url) ?>">
-              Toutes les pages <?= esc_html($sec['title']) ?>
-              <i class="icon icon-rightarrow"></i>
-            </a>
-          </li>
         </ul>
       </section>
     <?php endforeach; ?>

@@ -22,8 +22,6 @@ Target: `https://eudiasporacouncil.org/`
   `aria-hidden` states.
 - The mobile FAQ opens the taxonomy categories; each category independently
   opens its dynamic WordPress page links.
-- Category archive access is preserved through a final “Toutes les pages …”
-  link inside each category.
 - The mobile navigation controller is provided by the performance plugin on
   every page. Updated IDs/classes prevent the legacy jQuery handlers from
   firing a second time on lower pages.
