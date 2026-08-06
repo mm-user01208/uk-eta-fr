@@ -1,43 +1,41 @@
-# Astro Starter Kit: Minimal
+# UK ETA France
+
+French-language static information site for UK ETA travel requirements.
+
+## Stack
+
+- Astro
+- Tailwind CSS
+- GitHub source control
+- Cloudflare Pages hosting
+
+## Local development
 
 ```sh
-npm create astro@latest -- --template minimal
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Production build
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm ci
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The deployable static output is generated in `dist/`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Cloudflare Pages
 
-Any static assets, like images, can be placed in the `public/` directory.
+- Production branch: `main`
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Canonical origin: `https://eudiasporacouncil.org`
 
-## 🧞 Commands
+Do not change the canonical host to `www`. The current production site uses the apex domain as its canonical origin.
 
-All commands are run from the root of the project, from a terminal:
+Cloudflare Pages reads redirect and response-header rules from `public/_redirects` and `public/_headers`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Content publishing
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Add static routes under `src/pages/`. Keep existing production URLs stable. New French organic-search articles should be linked from the relevant hub and related articles.

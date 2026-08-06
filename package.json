@@ -1,5 +1,5 @@
 {
-  "name": "density-debris",
+  "name": "uk-eta-fr",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,9 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.1",
-    "@tailwindcss/vite": "^4.2.1",
-    "astro": "^6.0.0",
-    "tailwindcss": "^4.2.1"
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.6",
+    "tailwindcss": "^4.3.3"
   }
 }

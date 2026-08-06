@@ -13,6 +13,17 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 - GitHubリポジトリ `mm-user01208/uk-eta-fr` は既に存在する。
 - Cloudflare PagesはGitHub連携、コミットごとの自動ビルド、プレビューURL、ロールバックに適する。
 - 現在のWordPress本番URLは非www（`https://eudiasporacouncil.org`）を正規URLとしている。
+- 申請、問い合わせ、ステータス確認を含め、現状は動的フォームが存在しない。全ページを静的配信できるため、Workersやデータベースは移行対象外。
+
+## 2026-08-06 実装進捗
+
+- Astroの正規URLとサイトマップを非wwwへ統一。
+- 既存WordPress URLを静的ルートとして追加。
+- 新設ルートと既存ルートが重なるページに1対1の301を追加。
+- HTMLサイトマップを追加。
+- Cloudflare用セキュリティヘッダーを追加。
+- Astroと関連パッケージを更新し、`npm audit` 0件を確認。
+- 33ルートの静的ビルドに成功。
 
 ## 切替前の必須修正
 
@@ -23,7 +34,7 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 5. Search Console所有権確認用ファイルまたはタグを保持する。
 6. `sitemap-index.xml` を非wwwで生成し、切替後にSearch Consoleへ再送信する。
 7. 404ページ、セキュリティヘッダー、OG画像、favicon、構造化データを確認する。
-8. 申請・ステータス確認・問い合わせを再開する場合、フォームや個人情報をGitHubへ保存しない。Cloudflare Workers/Pages Functions等のバックエンドへ分離し、秘密情報はCloudflare Secretsで管理する。
+8. 将来フォームを追加する場合、フォームや個人情報をGitHubへ保存しない。Cloudflare Workers/Pages Functions等のバックエンドへ分離し、秘密情報はCloudflare Secretsで管理する。
 9. `npm audit` で報告される依存関係の問題を確認・更新してから公開する。
 
 ## 推奨する移行方法
