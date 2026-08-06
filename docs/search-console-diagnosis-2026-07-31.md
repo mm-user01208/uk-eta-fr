@@ -100,6 +100,24 @@ site has generated only one search click. Current sitemap URLs that are absent
 from this report should be inspected individually and requested for indexing
 after confirming that the sitemap status is **Success**.
 
+### Historical `noindex` classifications
+
+Search Console lists these URLs under "Excluded by `noindex`":
+
+- `https://eudiasporacouncil.org/?s={search_term_string}`;
+- `https://www.eudiasporacouncil.org/service` (last crawl 2025-11-03);
+- `https://www.eudiasporacouncil.org/contact` (last crawl 2025-11-02).
+
+The two `www` classifications are historical, not the current server behavior.
+On 2026-08-06, Googlebot requests to both URLs receive a permanent redirect to
+the non-`www`, trailing-slash canonical URL. Each destination returns HTTP `200`,
+declares `index, follow`, and has a self-referencing canonical. Search Console
+should reclassify the old `www` entries as redirects after Google recrawls them.
+No change is required merely to remove these historical rows.
+
+The templated search URL is not a content page and should remain excluded from
+the index. It should not be submitted for indexing.
+
 ## Observed public-side facts
 
 - The canonical homepage returns HTTP `200`.
