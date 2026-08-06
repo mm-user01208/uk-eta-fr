@@ -47,13 +47,15 @@ potentially including historical, discovered, duplicate, or removed URLs. The
 exact 25-URL exclusion breakdown is required before assigning a definitive
 technical cause.
 
-The strongest structural risk remains the domain-history mismatch: public search
-results associate `eudiasporacouncil.org` with the former EU Diaspora Council
-non-profit, while the site now sells a French-language UK ETA application
-service. This closely resembles the kind of abrupt non-profit-to-commercial
-repurposing Google calls out in its expired-domain-abuse policy. Only Search
-Console's Manual actions report can confirm whether a manual action exists;
-algorithmic quality/spam classification is not directly reported.
+The domain-history mismatch remains a strategic SEO risk: public search results
+associate `eudiasporacouncil.org` with the former EU Diaspora Council non-profit,
+while the site now sells a French-language UK ETA application service. However,
+legitimately purchasing and reusing a previously owned domain is not itself a
+policy violation. Google's expired-domain-abuse policy depends on abusive purpose
+and low-value use; the domain mismatch alone does not prove a penalty or explain
+the current indexing report. Only Search Console's Manual actions report can
+confirm whether a manual action exists; algorithmic classifications are not
+directly reported.
 
 The repository also contains a much larger planned Astro content set, but the
 live WordPress sitemap exposes only 12 current URLs. The planned informational
@@ -66,8 +68,37 @@ French language detection is configured correctly, but the available evidence
 does not show meaningful reach in France. With only one total search click and
 only four indexed pages, there is too little organic visibility to claim that the
 site is reaching French users. The immediate diagnostic priority is the exact
-Page indexing exclusion reasons; the long-term SEO priority is moving to a
-service-relevant domain and publishing the planned substantive French content.
+Page indexing exclusion reasons and discovery of current sitemap URLs. A
+service-relevant domain may improve clarity and trust, but a domain move is not
+justified by the available indexing evidence alone.
+
+### Page-indexing evidence received later on 2026-08-06
+
+The exclusion breakdown is:
+
+- Not found (404): 17 URLs;
+- excluded by `noindex`: 3 URLs;
+- redirect: 3 URLs;
+- blocked by HTTP 403: 1 URL;
+- crawled, currently not indexed: 1 URL.
+
+The 17 shown 404 examples are predominantly historical `www` URLs with numeric
+`.html` paths from the former site, plus an old `/tarif` path. These are expected
+legacy URLs, not 17 failed current pages. The one shown "crawled, currently not
+indexed" URL is `/mentions-legales/`, a legal-information page whose exclusion
+does not prevent core landing pages from ranking.
+
+This evidence does **not** support diagnosing an expired-domain penalty. Most of
+the 25 not-indexed URLs are expected legacy or intentionally excluded URLs. The
+remaining actionable item is the single 403 URL, whose identity must be checked.
+The three `noindex` and three redirect examples should also be reviewed to verify
+that they are intentional.
+
+The main unresolved performance issue is therefore not the total "25 not
+indexed" count. It is that only four current pages are shown as indexed and the
+site has generated only one search click. Current sitemap URLs that are absent
+from this report should be inspected individually and requested for indexing
+after confirming that the sitemap status is **Success**.
 
 ## Observed public-side facts
 
