@@ -13,6 +13,62 @@ indexed by Google at the time of this check. Search Console's URL Inspection,
 Page indexing, Manual actions, and Security issues reports are needed to determine
 Google's exact internal reason.
 
+## Follow-up — 2026-08-06
+
+A Search Console Summary screenshot covering approximately 2026-05-05 through
+2026-08-06 shows:
+
+- 1 total Google Web Search click;
+- 4 indexed pages;
+- 25 not-indexed pages.
+
+This is no longer a completely empty property, but it is still effectively not
+receiving meaningful organic search exposure. The screenshot does not show the
+country of origin for the single click. That must be checked in **Performance >
+Search results > Countries**; the country dimension is based on where the search
+originated.
+
+The production site was rechecked on 2026-08-06:
+
+- the homepage returns HTTP `200`;
+- `robots.txt` allows crawling and references the sitemap index;
+- the sitemap index and both child sitemaps return valid XML;
+- the current sitemap contains 12 URLs (10 pages and 2 `page_cat` archives), not
+  the 29 URLs counted in Search Console;
+- current pages have non-empty titles, self-referencing canonicals, and French
+  language signals (`<html lang="fr">`, `og:locale=fr_FR`, and
+  `inLanguage=fr-FR` on the homepage);
+- a public `site:eudiasporacouncil.org` search again returned no result from the
+  target domain during this check.
+
+The difference between the 12 current sitemap URLs and 29 Search Console URLs
+suggests that the Page indexing report includes URLs outside the current sitemap,
+potentially including historical, discovered, duplicate, or removed URLs. The
+exact 25-URL exclusion breakdown is required before assigning a definitive
+technical cause.
+
+The strongest structural risk remains the domain-history mismatch: public search
+results associate `eudiasporacouncil.org` with the former EU Diaspora Council
+non-profit, while the site now sells a French-language UK ETA application
+service. This closely resembles the kind of abrupt non-profit-to-commercial
+repurposing Google calls out in its expired-domain-abuse policy. Only Search
+Console's Manual actions report can confirm whether a manual action exists;
+algorithmic quality/spam classification is not directly reported.
+
+The repository also contains a much larger planned Astro content set, but the
+live WordPress sitemap exposes only 12 current URLs. The planned informational
+coverage is therefore not represented on the live site and cannot contribute to
+Google discovery, topical relevance, or internal linking.
+
+### Current conclusion
+
+French language detection is configured correctly, but the available evidence
+does not show meaningful reach in France. With only one total search click and
+only four indexed pages, there is too little organic visibility to claim that the
+site is reaching French users. The immediate diagnostic priority is the exact
+Page indexing exclusion reasons; the long-term SEO priority is moving to a
+service-relevant domain and publishing the planned substantive French content.
+
 ## Observed public-side facts
 
 - The canonical homepage returns HTTP `200`.
