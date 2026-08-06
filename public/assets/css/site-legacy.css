@@ -1,0 +1,29 @@
+/* Small compatibility layer for the static Astro migration. */
+body { overflow-x: hidden; overflow-y: auto; }
+main { display: block; }
+button.menu { border: 0; background: transparent; }
+.header-logo img { display: block; }
+.global-nav-main { margin: 0; padding: 0; }
+.global-nav-main li:last-child { border-right: 1px solid #4f6995; }
+.legacy-top .kv { position: relative; isolation: isolate; overflow: hidden; }
+.legacy-top .kv-media { position: absolute; inset: 0; z-index: -1; display: block; }
+.legacy-top .kv-media img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 10% center; }
+.legacy-top .faq details { margin-bottom: 14px; }
+.legacy-top .faq-answer p { margin: 0; padding: 14px 16px; }
+.legacy-top .top-overview-title .medium { font-size: 2.4rem; line-height: 1.45; }
+.article-shell { max-width: 1030px; margin: 0 auto; padding: 38px 25px 70px; }
+.article-shell > section:first-child { margin-top: 0; }
+
+@media screen and (max-width: 768px) {
+  .header-logo { width: min(270px, calc(100vw - 82px)); }
+  .header-logo img { width: 100%; height: auto; }
+  .legacy-top .kv-media img { object-position: center bottom; }
+  .legacy-top .copy-wrap { width: 100%; min-width: 0; box-sizing: border-box; }
+  .legacy-top .eye-catch-main { font-size: 2.6rem; }
+  .legacy-top .kv .btn { width: 100%; max-width: 100%; box-sizing: border-box; padding-left: 18px; padding-right: 18px; }
+  .legacy-top .kv .btn-text { min-width: 0; }
+  .legacy-top .kv .btn-main,
+  .legacy-top .kv .btn-sub { white-space: normal; line-height: 1.35; }
+  .legacy-top .top-overview-title .medium { font-size: 1.7rem; }
+  .article-shell { padding: 25px 20px 50px; }
+}

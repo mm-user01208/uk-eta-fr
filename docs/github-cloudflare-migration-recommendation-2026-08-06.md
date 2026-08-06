@@ -28,6 +28,9 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 - プレビュー確認先は `https://uk-eta-fr.pages.dev`。独自ドメインとDNSは未変更。
 - Cloudflare初回production deploymentに成功。26サイトマップURLの200/self-canonical、7リダイレクトの301、セキュリティヘッダー、PC・スマートフォン表示を確認済み。
 - Cloudflare DNSゾーンの自動作成は、現在のAPIトークンに `account.zone.create` 権限がないため未実施。Xserverのネームサーバーと公開サイトは変更していない。
+- 18:28時点の初期Astro版はWordPress版とデザインが大きく異なっていたため、本番切替を保留。
+- 現行WordPressと同じロゴ、ナビゲーション、CTA、英国旗とビッグベンのヒーロー、4つの指標、配色、フッターをAstroへ移植。既存の静的33ルートは維持した。
+- Cloudflare Dashboardへのログインを確認済み。デザイン修正版をPagesへ再デプロイし、公開プレビューを再検証してから独自ドメインを接続する。
 
 ## 本番切替前に必要な手動操作
 
@@ -61,7 +64,7 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 
 ## 判断
 
-現時点は「移行推奨・本番切替は未承認」。上記の必須修正とプレビュー検証が完了してからDNSを切り替える。
+現時点は「移行作業中・DNS切替は未実施」。現行デザインを再現したプレビューのPC・スマートフォン検証後に独自ドメインを接続し、DNSを切り替える。
 
 ## 公式資料
 
