@@ -31,6 +31,12 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 - 18:28時点の初期Astro版はWordPress版とデザインが大きく異なっていたため、本番切替を保留。
 - 現行WordPressと同じロゴ、ナビゲーション、CTA、英国旗とビッグベンのヒーロー、4つの指標、配色、フッターをAstroへ移植。既存の静的33ルートは維持した。
 - Cloudflare Dashboardへのログインを確認済み。デザイン修正版をPagesへ再デプロイし、公開プレビューを再検証してから独自ドメインを接続する。
+- Cloudflareへ `eudiasporacouncil.org` ゾーンをFreeプランで追加。現在はネームサーバー未変更のPending状態。
+- Cloudflare指定ネームサーバーは `hayes.ns.cloudflare.com` と `vita.ns.cloudflare.com`。
+- 自動検出されたルート/www/ワイルドカードA、Google Search Console確認TXT、SPF、DKIMを確認した。
+- WebをPagesへ切り替えてもXserverメールを維持できるよう、MX送信先を `sv16842.xserver.jp` に変更し、`mail`、`smtp`、`imap`、`pop` のDNS-only Aレコード（`85.131.213.168`）を追加した。
+- Pagesの独自ドメイン画面で `eudiasporacouncil.org` を入力し、DNS移管待ちまで進行。公開DNSは引き続きXserverで、サイト・メールへの変更はまだ発生していない。
+- 最後のネームサーバー変更にはXServerアカウントへのログインが必要。ブラウザでログイン画面を開き、ユーザー操作待ち。
 
 ## 本番切替前に必要な手動操作
 
