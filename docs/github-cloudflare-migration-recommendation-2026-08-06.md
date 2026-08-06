@@ -24,6 +24,8 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 - Cloudflare用セキュリティヘッダーを追加。
 - Astroと関連パッケージを更新し、`npm audit` 0件を確認。
 - 33ルートの静的ビルドに成功。
+- GitHub連携型Cloudflare Pagesプロジェクト `uk-eta-fr` を作成。production branchは `main`、build commandは `npm run build`、outputは `dist`。
+- プレビュー確認先は `https://uk-eta-fr.pages.dev`。独自ドメインとDNSは未変更。
 
 ## 切替前の必須修正
 
