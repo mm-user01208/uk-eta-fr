@@ -26,6 +26,17 @@ WordPressから、GitHubで管理するAstro静的サイトをCloudflare Pages�
 - 33ルートの静的ビルドに成功。
 - GitHub連携型Cloudflare Pagesプロジェクト `uk-eta-fr` を作成。production branchは `main`、build commandは `npm run build`、outputは `dist`。
 - プレビュー確認先は `https://uk-eta-fr.pages.dev`。独自ドメインとDNSは未変更。
+- Cloudflare初回production deploymentに成功。26サイトマップURLの200/self-canonical、7リダイレクトの301、セキュリティヘッダー、PC・スマートフォン表示を確認済み。
+- Cloudflare DNSゾーンの自動作成は、現在のAPIトークンに `account.zone.create` 権限がないため未実施。Xserverのネームサーバーと公開サイトは変更していない。
+
+## 本番切替前に必要な手動操作
+
+1. Cloudflare Dashboardへログインする。
+2. `eudiasporacouncil.org` をCloudflareへ追加する。
+3. Cloudflareが検出したA/MX/TXTレコードを現在の公開DNSと比較する。特にXserverメール用のMX、SPF、`mail`、`smtp`、`imap`、`pop`を維持する。
+4. Pagesプロジェクト `uk-eta-fr` に `eudiasporacouncil.org` を追加する。
+5. Xserver側でCloudflare指定ネームサーバーへ変更する。
+6. DNS反映後に非www、www、メール、Search Console、サイトマップを再検査する。
 
 ## 切替前の必須修正
 
