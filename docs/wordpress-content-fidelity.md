@@ -23,6 +23,8 @@ These routes render from `src/content/wordpress-snapshots.ts` through `src/layou
 
 Do not rewrite, shorten, translate, replace, reorder, add to, or remove any protected page text, image, or link. Do not substitute an SEO article for an existing WordPress page. Changes to protected content require explicit approval.
 
+The shared footer navigation is an approved exception as of 2026-08-07. It is maintained as a site-wide Astro component so all 26 canonical pages can be reached through the four footer categories. This exception does not permit changes to protected main content, images, or in-page links.
+
 ## Refresh procedure
 
 Run the snapshot command only when the WordPress source itself has intentionally changed:

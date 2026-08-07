@@ -10,7 +10,6 @@ interface Props {
   legacyDesktopNavHtml?: string;
   legacyMobileNavHtml?: string;
   legacyMainHtml?: string;
-  legacyFooterHtml?: string;
   legacyFooterFixedHtml?: string;
 }
 
@@ -25,10 +24,10 @@ const {
   legacyDesktopNavHtml,
   legacyMobileNavHtml,
   legacyMainHtml,
-  legacyFooterHtml,
   legacyFooterFixedHtml,
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/global.css';
 ---
 
@@ -183,37 +182,7 @@ import '../styles/global.css';
     : <main><slot /></main>
   }
 
-  {legacyFooterHtml ? <Fragment set:html={legacyFooterHtml} /> : <footer>
-    <div id="floating-off" class="common-nav">
-      <section>
-        <p><a href="/page_cat/uketa/">Infos ETA Royaume-Uni</a><i class="icon icon-hyphen"></i></p>
-        <div class="list-wrap" style="display:block;">
-          <ul>
-            <li><a href="/">ETA Royaume-Uni — Accueil</a></li>
-            <li><a href="/service/">À propos de l'ETA</a></li>
-            <li><a href="/fee/">Frais ETA Royaume-Uni</a></li>
-            <li><a href="/eta/">Guide ETA</a></li>
-          </ul>
-        </div>
-      </section>
-      <section>
-        <p><a href="/page_cat/site/">Infos du site</a><i class="icon icon-hyphen"></i></p>
-        <div class="list-wrap" style="display:block;">
-          <ul>
-            <li><a href="/entry/">Demander l'ETA</a></li>
-            <li><a href="/status/">Vérifier la demande</a></li>
-            <li><a href="/contact/">Contact</a></li>
-            <li><a href="/privacy/">Politique de confidentialité</a></li>
-            <li><a href="/mentions-legales/">Mentions légales</a></li>
-            <li><a href="/agreement/">Conditions générales</a></li>
-          </ul>
-        </div>
-      </section>
-    </div>
-    <div class="footer-bottom">
-      <small class="footer-bottom-text">©2026 Site de demande d'ETA pour le Royaume-Uni. Tous droits réservés.</small>
-    </div>
-  </footer>}
+  <SiteFooter />
 
   {legacyFooterFixedHtml && <Fragment set:html={legacyFooterFixedHtml} />}
 
@@ -279,15 +248,36 @@ import '../styles/global.css';
         });
       }
 
-      for (const icon of document.querySelectorAll('footer .common-nav p i')) {
-        icon.addEventListener('click', (event) => {
+      const footerMedia = window.matchMedia('(max-width: 768px)');
+      const footerToggles = document.querySelectorAll('.site-footer-toggle');
+
+      function setFooterSection(button, open) {
+        const listId = button.getAttribute('aria-controls');
+        const list = listId ? document.getElementById(listId) : null;
+        if (!(list instanceof HTMLElement)) return;
+
+        button.setAttribute('aria-expanded', String(open));
+        list.setAttribute('aria-hidden', String(!open));
+        list.style.display = open ? 'block' : 'none';
+        const icon = button.querySelector('.icon');
+        icon?.classList.toggle('icon-hyphen', open);
+        icon?.classList.toggle('icon-plus', !open);
+      }
+
+      for (const button of footerToggles) {
+        if (!(button instanceof HTMLButtonElement)) continue;
+        setFooterSection(button, !footerMedia.matches);
+        button.addEventListener('click', (event) => {
           event.preventDefault();
-          const list = icon.closest('p')?.nextElementSibling;
-          if (list instanceof HTMLElement) {
-            list.style.display = getComputedStyle(list).display === 'none' ? 'block' : 'none';
-          }
+          setFooterSection(button, button.getAttribute('aria-expanded') !== 'true');
         });
       }
+
+      footerMedia.addEventListener('change', () => {
+        for (const button of footerToggles) {
+          if (button instanceof HTMLButtonElement) setFooterSection(button, !footerMedia.matches);
+        }
+      });
     })();
   </script>
   <script id="uketa-ga4-consent-controls" is:inline>

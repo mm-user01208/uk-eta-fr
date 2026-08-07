@@ -61,6 +61,27 @@ main .text-3xl { font-size: 30px; }
 .legacy-top .top-overview-description { width: 100%; margin-top: 10px; }
 .legacy-top .top-apply-flow-list-item p { font-size: 1.6rem; }
 footer .common-nav p { font-size: 1.6rem; }
+.site-footer .common-nav .list-wrap { display: block; }
+.site-footer .common-nav p { padding-right: 48px; }
+.site-footer-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+.site-footer .common-nav p .site-footer-toggle i {
+  position: static;
+  display: block;
+  margin: auto;
+  transform: none;
+}
+
+@media screen and (max-width: 768px) {
+  .site-footer .common-nav .list-wrap { display: none; }
+}
 
 /* Keep the desktop overview blocks aligned with the production WordPress design. */
 @media screen and (min-width: 769px) {
