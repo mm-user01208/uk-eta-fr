@@ -1,12 +1,37 @@
 /* Compatibility layer for the static Astro migration. */
 html { overflow-x: hidden; overflow-y: auto; }
 body { overflow: visible; }
+body { font-weight: 500; }
+p, div, li { font-size: 1.6rem; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 main { display: block; min-width: 0; }
 button.menu { border: 0; background: transparent; }
 .header-logo img { display: block; }
 .global-nav-main { margin: 0; padding: 0; }
 .global-nav-main li:last-child { border-right: 1px solid #4f6995; }
 .inner { width: 100%; box-sizing: border-box; }
+
+/* Tailwind utilities assume a 16px root; the legacy theme intentionally uses 10px. */
+main .max-w-4xl { max-width: 896px; }
+main .px-4 { padding-right: 16px; padding-left: 16px; }
+main .py-12 { padding-top: 48px; padding-bottom: 48px; }
+main .p-3 { padding: 12px; }
+main .p-6 { padding: 24px; }
+main .p-8 { padding: 32px; }
+main .mb-2 { margin-bottom: 8px; }
+main .mb-3 { margin-bottom: 12px; }
+main .mb-4 { margin-bottom: 16px; }
+main .mb-6 { margin-bottom: 24px; }
+main .mb-8 { margin-bottom: 32px; }
+main .gap-4 { gap: 16px; }
+main .gap-6 { gap: 24px; }
+main .gap-8 { gap: 32px; }
+main .space-y-2 > :not(:last-child) { margin-bottom: 8px; }
+main .rounded-lg { border-radius: 8px; }
+main .text-sm { font-size: 14px; }
+main .text-lg { font-size: 18px; }
+main .text-xl { font-size: 20px; }
+main .text-3xl { font-size: 30px; }
 .legacy-top .kv { position: relative; isolation: isolate; overflow: hidden; }
 .legacy-top .kv-media { position: absolute; inset: 0; z-index: -1; display: block; }
 .legacy-top .kv-media img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 10% center; }
@@ -15,6 +40,35 @@ button.menu { border: 0; background: transparent; }
 .legacy-top .top-overview-description,
 .legacy-top .top-apply-flow-list-item { min-width: 0; }
 .legacy-top .top-overview-title .medium { font-size: 2.4rem; line-height: 1.45; }
+.legacy-top .top-overview-description { width: 100%; margin-top: 10px; }
+.legacy-top .top-apply-flow-list-item p { font-size: 1.6rem; }
+footer .common-nav p { font-size: 1.6rem; }
+
+/* Keep the desktop overview blocks aligned with the production WordPress design. */
+@media screen and (min-width: 769px) {
+  .legacy-top .top-overview-flex { flex-direction: column; }
+  .legacy-top .top-overview-title {
+    width: 100%;
+    min-width: auto;
+    margin: 0;
+    align-items: center;
+    text-align: center;
+  }
+  .legacy-top .top-overview-title h2 {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    padding: 20px 0 0 44px;
+    text-align: center;
+  }
+  .legacy-top .top-overview-title h2 .lang-jp { white-space: nowrap; }
+  .legacy-top .top-overview-title h2::before {
+    top: -30px;
+    left: -30px;
+    transform: rotate(-135deg);
+  }
+  .legacy-top .top-overview-title h2::after { width: 80px; margin: 20px auto 0; }
+}
 
 /* Front-page FAQ: preserve the WordPress Q/A visual language without icon fonts. */
 .legacy-top .faq details {
@@ -25,12 +79,12 @@ button.menu { border: 0; background: transparent; }
   overflow: visible;
 }
 .legacy-top .faq summary {
-  min-height: 66px;
-  padding: 20px 54px 20px 56px;
+  padding: 16px 40px 16px 56px;
   color: #111;
   background: #fff;
-  display: flex;
-  align-items: center;
+  display: list-item;
+  font-size: 1.6rem;
+  font-weight: 600;
   list-style: none;
 }
 .legacy-top .faq summary::before {
@@ -49,22 +103,27 @@ button.menu { border: 0; background: transparent; }
   font-weight: 700;
 }
 .legacy-top .faq summary::after {
-  content: "+";
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-  font-family: inherit;
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1;
-  color: #666;
+  background:
+    linear-gradient(#777, #777) center / 14px 2px no-repeat,
+    linear-gradient(#777, #777) center / 2px 14px no-repeat;
 }
-.legacy-top .faq details[open] summary::after { content: "−"; transform: translateY(-50%); }
+.legacy-top .faq details[open] summary::after {
+  content: "";
+  background: linear-gradient(#777, #777) center / 14px 2px no-repeat;
+  transform: translateY(-50%);
+}
 .legacy-top .faq-answer {
   position: relative;
-  margin: 0 0 14px;
-  padding: 18px 18px 18px 72px;
-  background: #f8f8f8;
+  margin: 0;
+  padding: 16px 16px 20px 56px;
+  background: #fafafa;
 }
 .legacy-top .faq-answer::before {
   content: "A";
@@ -80,7 +139,7 @@ button.menu { border: 0; background: transparent; }
   border-radius: 50%;
   font-weight: 700;
 }
-.legacy-top .faq-answer p { margin: 0; padding: 0; line-height: 1.8; }
+.legacy-top .faq-answer p { margin: 0; padding: 0; font-size: 1.5rem; line-height: 1.8; }
 
 /* Stable article layout. Tailwind's reset does not provide typography by itself. */
 .article-layout {
@@ -216,8 +275,8 @@ button.menu { border: 0; background: transparent; }
   .legacy-top .kv .btn-main,
   .legacy-top .kv .btn-sub { white-space: normal; line-height: 1.35; }
   .legacy-top .top-overview-title .medium { font-size: 1.7rem; }
-  .legacy-top .faq summary { padding-right: 44px; padding-left: 48px; }
-  .legacy-top .faq-answer { padding-left: 58px; }
+  .legacy-top .faq summary { padding-right: 40px; padding-left: 48px; }
+  .legacy-top .faq-answer { padding-left: 48px; }
   .article-layout { padding: 18px 20px 52px; }
   .article-breadcrumbs { margin-bottom: 18px; }
   .article-columns { grid-template-columns: minmax(0, 1fr); gap: 34px; }
@@ -234,5 +293,4 @@ button.menu { border: 0; background: transparent; }
 @media screen and (min-width: 769px) and (max-width: 1050px) {
   .legacy-top .top-apply-flow-list { width: 100%; padding-right: 10px; padding-left: 10px; gap: 8px; }
   .legacy-top .top-apply-flow-list-item { flex: 1 1 0; width: auto; }
-  .legacy-top .top-overview-title h2 { width: 225px; }
 }
