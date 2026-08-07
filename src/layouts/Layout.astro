@@ -5,6 +5,13 @@ interface Props {
   structuredData?: object;
   bodyClass?: string;
   topPage?: boolean;
+  headerDescription?: string;
+  legacyHeaderHtml?: string;
+  legacyDesktopNavHtml?: string;
+  legacyMobileNavHtml?: string;
+  legacyMainHtml?: string;
+  legacyFooterHtml?: string;
+  legacyFooterFixedHtml?: string;
 }
 
 const {
@@ -13,6 +20,13 @@ const {
   structuredData,
   bodyClass = '',
   topPage = false,
+  headerDescription = 'Faire la demande d’ETA：UK ETA application site',
+  legacyHeaderHtml,
+  legacyDesktopNavHtml,
+  legacyMobileNavHtml,
+  legacyMainHtml,
+  legacyFooterHtml,
+  legacyFooterFixedHtml,
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import '../styles/global.css';
@@ -35,7 +49,8 @@ import '../styles/global.css';
   <meta property="og:locale" content="fr_FR" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="/assets/css/style.css" />
-  {topPage && <link rel="stylesheet" href="/assets/css/top.css" />}
+  <link rel="stylesheet" href="/assets/css/top.css" />
+  {!topPage && <link rel="stylesheet" href="/assets/css/page.css" />}
   <link rel="stylesheet" href="/assets/css/site-legacy.css" />
   <script id="uketa-ga4-consent-default" is:inline>
     (() => {
@@ -112,9 +127,9 @@ import '../styles/global.css';
   )}
 </head>
 <body class={bodyClass}>
-  <header>
+  {legacyHeaderHtml ? <Fragment set:html={legacyHeaderHtml} /> : <header>
     <div class="header-description">
-      <h1>Faire la demande d’ETA：UK ETA application site</h1>
+      <h1>{headerDescription}</h1>
     </div>
     <div class="header-wrapper">
       <div class="header-logo">
@@ -139,9 +154,9 @@ import '../styles/global.css';
         <span>Menu</span>
       </button>
     </div>
-  </header>
+  </header>}
 
-  <nav class="global-nav pc-only" aria-label="Navigation principale">
+  {legacyDesktopNavHtml ? <Fragment set:html={legacyDesktopNavHtml} /> : <nav class="global-nav pc-only" aria-label="Navigation principale">
     <ul class="global-nav-main">
       <li><a href="/">ETA Royaume-Uni</a></li>
       <li><a href="/entry/">Demander l'ETA</a></li>
@@ -149,9 +164,9 @@ import '../styles/global.css';
       <li><a href="/contact/">Contact</a></li>
       <li><a href="/eta/faq/">FAQ</a></li>
     </ul>
-  </nav>
+  </nav>}
 
-  <nav id="global-nav-sp" class="global-nav sp-only" aria-label="Navigation mobile" aria-hidden="true">
+  {legacyMobileNavHtml ? <Fragment set:html={legacyMobileNavHtml} /> : <nav id="global-nav-sp" class="global-nav sp-only" aria-label="Navigation mobile" aria-hidden="true">
     <ul>
       <li><a href="/"><p>ETA Royaume-Uni</p><i class="icon icon-rightarrow"></i></a></li>
       <li><a href="/entry/"><p>Demander l'ETA</p><i class="icon icon-rightarrow"></i></a></li>
@@ -161,13 +176,14 @@ import '../styles/global.css';
       <li><a href="/service/"><p>À propos de l'ETA</p><i class="icon icon-rightarrow"></i></a></li>
       <li><a href="/fee/"><p>Frais ETA Royaume-Uni</p><i class="icon icon-rightarrow"></i></a></li>
     </ul>
-  </nav>
+  </nav>}
 
-  <main>
-    <slot />
-  </main>
+  {legacyMainHtml
+    ? <Fragment set:html={legacyMainHtml} />
+    : <main><slot /></main>
+  }
 
-  <footer>
+  {legacyFooterHtml ? <Fragment set:html={legacyFooterHtml} /> : <footer>
     <div id="floating-off" class="common-nav">
       <section>
         <p><a href="/page_cat/uketa/">Infos ETA Royaume-Uni</a><i class="icon icon-hyphen"></i></p>
@@ -197,7 +213,9 @@ import '../styles/global.css';
     <div class="footer-bottom">
       <small class="footer-bottom-text">©2026 Site de demande d'ETA pour le Royaume-Uni. Tous droits réservés.</small>
     </div>
-  </footer>
+  </footer>}
+
+  {legacyFooterFixedHtml && <Fragment set:html={legacyFooterFixedHtml} />}
 
   <section
     id="uketa-cookie-consent"
@@ -221,10 +239,11 @@ import '../styles/global.css';
 
   <script is:inline>
     (() => {
-      const button = document.getElementById('uketa-sp-menu-btn');
+      const button = document.querySelector('#uketa-sp-menu-btn, #sp-menu-btn');
       const menu = document.getElementById('global-nav-sp');
       if (!button || !menu) return;
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
         const open = button.getAttribute('aria-expanded') === 'true';
         button.setAttribute('aria-expanded', String(!open));
         menu.setAttribute('aria-hidden', String(open));
@@ -233,6 +252,42 @@ import '../styles/global.css';
         icon?.classList.toggle('icon-menu', open);
         icon?.classList.toggle('icon-close', !open);
       });
+
+      const desktopMore = document.querySelector('.global-nav.pc-only .global-nav-more');
+      const desktopExpand = document.querySelector('.global-nav.pc-only .global-nav-expand');
+      for (const element of [desktopMore, desktopExpand]) {
+        element?.addEventListener('mouseenter', () => { if (desktopExpand) desktopExpand.style.display = 'block'; });
+        element?.addEventListener('mouseleave', () => { if (desktopExpand) desktopExpand.style.display = 'none'; });
+      }
+
+      const mobileMore = menu.querySelector('.global-nav-more');
+      const mobileCommonNav = menu.querySelector('.common-nav');
+      mobileMore?.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (!mobileCommonNav) return;
+        mobileCommonNav.style.display = getComputedStyle(mobileCommonNav).display === 'none' ? 'block' : 'none';
+      });
+
+      for (const icon of menu.querySelectorAll('.common-nav h2 i')) {
+        icon.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const list = icon.closest('h2')?.nextElementSibling;
+          if (list instanceof HTMLElement) {
+            list.style.display = getComputedStyle(list).display === 'none' ? 'block' : 'none';
+          }
+        });
+      }
+
+      for (const icon of document.querySelectorAll('footer .common-nav p i')) {
+        icon.addEventListener('click', (event) => {
+          event.preventDefault();
+          const list = icon.closest('p')?.nextElementSibling;
+          if (list instanceof HTMLElement) {
+            list.style.display = getComputedStyle(list).display === 'none' ? 'block' : 'none';
+          }
+        });
+      }
     })();
   </script>
   <script id="uketa-ga4-consent-controls" is:inline>

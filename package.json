@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "snapshot:wordpress": "node scripts/snapshot-wordpress-pages.mjs",
     "astro": "astro"
   },
   "dependencies": {

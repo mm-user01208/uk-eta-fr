@@ -90,3 +90,28 @@ Follow-up verification:
 - computed home-page dimensions now match the production WordPress reference
   for 16 px body copy, stacked desktop overview blocks, 64 px FAQ rows, and
   16 px footer headings.
+
+## Source-fidelity correction
+
+The layout-only follow-up above was still incomplete. Several existing routes,
+including `/service/`, and multiple home-page sections had been rewritten or
+shortened during the Astro migration. That changed source text, images, links,
+and page structure without approval.
+
+The authoritative WordPress HTML has now been restored for all 12 existing
+routes listed in `docs/wordpress-content-fidelity.md`. The shared header,
+desktop and mobile navigation, main content, footer, metadata, theme CSS, and
+same-origin assets are snapshotted from WordPress instead of being recreated
+by hand.
+
+Final desktop verification:
+
+- normalized main text, image attributes, source attributes, link text and
+  targets, titles, descriptions, header links, navigation links, and footer
+  links match WordPress on all 12 protected routes;
+- element geometry and key computed styles match at 1909 px and 1090 px;
+- every checked route has `scrollWidth === innerWidth`;
+- `/service/` has equal 1909 px screenshot dimensions and approximately
+  0.001% pixel variance, limited to rendering anti-aliasing;
+- the analytics-cookie clean, accept, persistence, and manage-control states
+  still pass after the content restoration.

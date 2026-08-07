@@ -6,7 +6,8 @@ p, div, li { font-size: 1.6rem; font-weight: 400; }
 h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 main { display: block; min-width: 0; }
 button.menu { border: 0; background: transparent; }
-.header-logo img { display: block; }
+.header-logo img { display: inline; vertical-align: baseline; }
+.header-btn .icon-entry { height: 36px; vertical-align: baseline; }
 .global-nav-main { margin: 0; padding: 0; }
 .global-nav-main li:last-child { border-right: 1px solid #4f6995; }
 .inner { width: 100%; box-sizing: border-box; }
@@ -32,20 +33,38 @@ main .text-sm { font-size: 14px; }
 main .text-lg { font-size: 18px; }
 main .text-xl { font-size: 20px; }
 main .text-3xl { font-size: 30px; }
+.legacy-content-page .entry ul > li { list-style-type: disc; }
+.legacy-content-page .entry ol > li,
+.legacy-top .top-overview-description ol > li { list-style-type: decimal; }
+.legacy-content-page main img { vertical-align: bottom; }
+.legacy-content-page .entry img.lazyload { vertical-align: baseline; }
+.legacy-content-page .cat-header h2,
+.legacy-content-page .page-footer-relation-post-heading { font-size: 1.5em; }
+.legacy-content-page .article-list img { display: inline; vertical-align: baseline; }
+.legacy-top main img { display: inline; vertical-align: baseline; }
 .legacy-top .kv { position: relative; isolation: isolate; overflow: hidden; }
 .legacy-top .kv-media { position: absolute; inset: 0; z-index: -1; display: block; }
 .legacy-top .kv-media img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 10% center; }
-.legacy-top .top-apply-flow-list { max-width: 100%; }
 .legacy-top .top-overview-title,
 .legacy-top .top-overview-description,
 .legacy-top .top-apply-flow-list-item { min-width: 0; }
-.legacy-top .top-overview-title .medium { font-size: 2.4rem; line-height: 1.45; }
+.legacy-top .etias-iconset .row .icon img,
+.legacy-top .top-apply-flow-list-item .icon img {
+  display: inline;
+  vertical-align: baseline;
+  height: 75px;
+}
+.legacy-top .btn .icon-entry { display: block; height: 36px; vertical-align: baseline; }
+.legacy-top .top-apply-flow-list-arrow img { height: 20px; }
+.legacy-top .top-apply-flow-list-item h3 { font-size: 1.17em; }
+.legacy-top .top-overview-title .medium { font-size: 2.4rem; line-height: 1.5; }
 .legacy-top .top-overview-description { width: 100%; margin-top: 10px; }
 .legacy-top .top-apply-flow-list-item p { font-size: 1.6rem; }
 footer .common-nav p { font-size: 1.6rem; }
 
 /* Keep the desktop overview blocks aligned with the production WordPress design. */
 @media screen and (min-width: 769px) {
+  footer .common-nav li { list-style-type: disc; }
   .legacy-top .top-overview-flex { flex-direction: column; }
   .legacy-top .top-overview-title {
     width: 100%;
@@ -71,16 +90,9 @@ footer .common-nav p { font-size: 1.6rem; }
 }
 
 /* Front-page FAQ: preserve the WordPress Q/A visual language without icon fonts. */
-.legacy-top .faq details {
-  margin: 0;
-  border: 0;
-  border-bottom: 1px dashed #d5d5d5;
-  border-radius: 0;
-  overflow: visible;
-}
 .legacy-top .faq summary {
   padding: 16px 40px 16px 56px;
-  color: #111;
+  color: #333;
   background: #fff;
   display: list-item;
   font-size: 1.6rem;
@@ -139,7 +151,6 @@ footer .common-nav p { font-size: 1.6rem; }
   border-radius: 50%;
   font-weight: 700;
 }
-.legacy-top .faq-answer p { margin: 0; padding: 0; font-size: 1.5rem; line-height: 1.8; }
 
 /* Stable article layout. Tailwind's reset does not provide typography by itself. */
 .article-layout {

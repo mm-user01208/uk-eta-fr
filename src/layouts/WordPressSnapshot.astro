@@ -1,0 +1,25 @@
+---
+import Layout from './Layout.astro';
+import { wordpressSnapshots } from '../content/wordpress-snapshots';
+
+interface Props {
+  path: keyof typeof wordpressSnapshots;
+}
+
+const { path } = Astro.props;
+const snapshot = wordpressSnapshots[path];
+---
+
+<Layout
+  title={snapshot.title}
+  description={snapshot.description}
+  headerDescription={snapshot.headerDescription}
+  bodyClass={`${snapshot.bodyClass} ${snapshot.topPage ? 'legacy-top' : 'legacy-content-page'}`}
+  topPage={snapshot.topPage}
+  legacyHeaderHtml={snapshot.headerHtml}
+  legacyDesktopNavHtml={snapshot.desktopNavHtml}
+  legacyMobileNavHtml={snapshot.mobileNavHtml}
+  legacyMainHtml={snapshot.mainHtml}
+  legacyFooterHtml={snapshot.footerHtml}
+  legacyFooterFixedHtml={snapshot.footerFixedHtml}
+/>

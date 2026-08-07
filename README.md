@@ -38,4 +38,12 @@ Cloudflare Pages reads redirect and response-header rules from `public/_redirect
 
 ## Content publishing
 
-Add static routes under `src/pages/`. Keep existing production URLs stable. New French organic-search articles should be linked from the relevant hub and related articles.
+The existing WordPress pages are the source of truth for text, images, links, metadata, and page structure. Do not rewrite, shorten, translate, replace, or remove that content during the Astro migration.
+
+The protected routes and their WordPress snapshots are documented in `docs/wordpress-content-fidelity.md`. Refresh them only from the production WordPress source with:
+
+```sh
+npm run snapshot:wordpress
+```
+
+Add new static routes under `src/pages/` without changing existing production URLs or protected source content. New French organic-search articles should be linked from the relevant hub and related articles only when that change is explicitly approved.
