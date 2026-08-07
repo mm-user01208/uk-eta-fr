@@ -1,18 +1,209 @@
-/* Small compatibility layer for the static Astro migration. */
-body { overflow-x: hidden; overflow-y: auto; }
-main { display: block; }
+/* Compatibility layer for the static Astro migration. */
+html { overflow-x: hidden; overflow-y: auto; }
+body { overflow: visible; }
+main { display: block; min-width: 0; }
 button.menu { border: 0; background: transparent; }
 .header-logo img { display: block; }
 .global-nav-main { margin: 0; padding: 0; }
 .global-nav-main li:last-child { border-right: 1px solid #4f6995; }
+.inner { width: 100%; box-sizing: border-box; }
 .legacy-top .kv { position: relative; isolation: isolate; overflow: hidden; }
 .legacy-top .kv-media { position: absolute; inset: 0; z-index: -1; display: block; }
 .legacy-top .kv-media img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 10% center; }
-.legacy-top .faq details { margin-bottom: 14px; }
-.legacy-top .faq-answer p { margin: 0; padding: 14px 16px; }
+.legacy-top .top-apply-flow-list { max-width: 100%; }
+.legacy-top .top-overview-title,
+.legacy-top .top-overview-description,
+.legacy-top .top-apply-flow-list-item { min-width: 0; }
 .legacy-top .top-overview-title .medium { font-size: 2.4rem; line-height: 1.45; }
-.article-shell { max-width: 1030px; margin: 0 auto; padding: 38px 25px 70px; }
-.article-shell > section:first-child { margin-top: 0; }
+
+/* Front-page FAQ: preserve the WordPress Q/A visual language without icon fonts. */
+.legacy-top .faq details {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px dashed #d5d5d5;
+  border-radius: 0;
+  overflow: visible;
+}
+.legacy-top .faq summary {
+  min-height: 66px;
+  padding: 20px 54px 20px 56px;
+  color: #111;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.legacy-top .faq summary::before {
+  content: "Q";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: #c8102e;
+  border-radius: 50%;
+  font-weight: 700;
+}
+.legacy-top .faq summary::after {
+  content: "+";
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  color: #666;
+}
+.legacy-top .faq details[open] summary::after { content: "−"; transform: translateY(-50%); }
+.legacy-top .faq-answer {
+  position: relative;
+  margin: 0 0 14px;
+  padding: 18px 18px 18px 72px;
+  background: #f8f8f8;
+}
+.legacy-top .faq-answer::before {
+  content: "A";
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: #012169;
+  border-radius: 50%;
+  font-weight: 700;
+}
+.legacy-top .faq-answer p { margin: 0; padding: 0; line-height: 1.8; }
+
+/* Stable article layout. Tailwind's reset does not provide typography by itself. */
+.article-layout {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 28px 30px 72px;
+}
+.article-breadcrumbs { margin: 0 0 24px; color: #68717d; }
+.article-breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 5px 8px; margin: 0; padding: 0; }
+.article-breadcrumbs li { display: flex; align-items: center; gap: 8px; list-style: none; font-size: 1.3rem; }
+.article-breadcrumbs a { text-decoration: none; }
+.article-breadcrumbs a:hover { text-decoration: underline; }
+.article-columns { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 44px; align-items: start; }
+.article-content { min-width: 0; color: #18212b; }
+.article-content > h1 {
+  margin: 0 0 28px;
+  padding: 0 0 14px;
+  color: #102e6c;
+  border-bottom: 2px solid #c8102e;
+  font-size: 3rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+.article-content h2 {
+  margin: 42px 0 18px;
+  padding: 9px 0 9px 15px;
+  color: #102e6c;
+  border-left: 4px solid #c8102e;
+  font-size: 2.2rem;
+  line-height: 1.45;
+  font-weight: 700;
+}
+.article-content h3 { margin: 30px 0 12px; color: #102e6c; font-size: 1.8rem; line-height: 1.5; font-weight: 700; }
+.article-content p,
+.article-content li { font-size: 1.6rem; line-height: 1.85; }
+.article-content p { margin: 0 0 20px; }
+.article-content ul,
+.article-content ol { margin: 0 0 24px; padding-left: 28px; }
+.article-content li { margin: 5px 0; }
+.article-content a { color: #195a9b; text-decoration: underline; text-underline-offset: 2px; }
+.article-related { min-width: 0; }
+.article-related > div { position: sticky; top: 24px; padding: 22px; background: #f4f7fa; border-radius: 7px; }
+.article-related h2 { margin: 0 0 13px; color: #102e6c; font-size: 1.6rem; line-height: 1.4; font-weight: 700; }
+.article-related ul { margin: 0; padding: 0; }
+.article-related li { margin: 0; padding: 8px 0; border-bottom: 1px solid #dde4ec; list-style: none; font-size: 1.4rem; line-height: 1.45; }
+.article-related li:last-child { border-bottom: 0; }
+.article-related a { color: #195a9b; text-decoration: none; }
+.article-related a:hover { text-decoration: underline; }
+.article-faq { margin-top: 28px; }
+.article-faq details { margin: 0 0 14px; border: 1px solid #d5dbe2; border-radius: 7px; overflow: hidden; }
+.article-faq summary {
+  padding: 16px 52px 16px 18px;
+  color: #102e6c;
+  background: #f4f7fa;
+  font-size: 1.6rem;
+  line-height: 1.55;
+  font-weight: 700;
+  list-style: none;
+}
+.article-faq summary::after {
+  content: "+";
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+}
+.article-faq details[open] summary::after { content: "−"; transform: translateY(-50%); }
+.article-faq-answer { padding: 18px; background: #fff; }
+.article-faq-answer p { margin: 0; }
+
+/* GA4 consent controls. */
+#uketa-cookie-consent[hidden],
+#uketa-cookie-manage[hidden] { display: none !important; }
+#uketa-cookie-consent {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2147483000;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #1b1b1b;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.2);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.55;
+}
+#uketa-cookie-consent p { margin: 0 0 14px; font-size: 15px; }
+#uketa-cookie-consent a { color: #195a9b; text-decoration: underline; }
+.uketa-cookie-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.uketa-cookie-button {
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid #174f84;
+  border-radius: 5px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+#uketa-cookie-reject { color: #174f84; background: #fff; }
+#uketa-cookie-accept { color: #fff; background: #174f84; }
+#uketa-cookie-manage {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2147482999;
+  padding: 7px 10px;
+  color: #1b1b1b;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
 
 @media screen and (max-width: 768px) {
   .header-logo { width: min(270px, calc(100vw - 82px)); }
@@ -25,5 +216,23 @@ button.menu { border: 0; background: transparent; }
   .legacy-top .kv .btn-main,
   .legacy-top .kv .btn-sub { white-space: normal; line-height: 1.35; }
   .legacy-top .top-overview-title .medium { font-size: 1.7rem; }
-  .article-shell { padding: 25px 20px 50px; }
+  .legacy-top .faq summary { padding-right: 44px; padding-left: 48px; }
+  .legacy-top .faq-answer { padding-left: 58px; }
+  .article-layout { padding: 18px 20px 52px; }
+  .article-breadcrumbs { margin-bottom: 18px; }
+  .article-columns { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .article-content > h1 { margin-bottom: 22px; font-size: 2.4rem; }
+  .article-content h2 { margin-top: 34px; font-size: 2rem; }
+  .article-content p,
+  .article-content li { font-size: 1.5rem; line-height: 1.8; }
+  .article-related > div { position: static; }
+  #uketa-cookie-consent { right: 10px; bottom: 10px; left: 10px; padding: 16px; }
+  .uketa-cookie-actions { display: grid; grid-template-columns: 1fr; }
+  .uketa-cookie-button { width: 100%; }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1050px) {
+  .legacy-top .top-apply-flow-list { width: 100%; padding-right: 10px; padding-left: 10px; gap: 8px; }
+  .legacy-top .top-apply-flow-list-item { flex: 1 1 0; width: auto; }
+  .legacy-top .top-overview-title h2 { width: 225px; }
 }

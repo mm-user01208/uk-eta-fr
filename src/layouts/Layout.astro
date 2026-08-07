@@ -37,6 +37,76 @@ import '../styles/global.css';
   <link rel="stylesheet" href="/assets/css/style.css" />
   {topPage && <link rel="stylesheet" href="/assets/css/top.css" />}
   <link rel="stylesheet" href="/assets/css/site-legacy.css" />
+  <script id="uketa-ga4-consent-default" is:inline>
+    (() => {
+      const consentKey = 'uketa_analytics_consent_v1';
+      const measurementId = 'G-Y2MEYTFRV8';
+      let storedChoice = null;
+
+      try {
+        storedChoice = window.localStorage.getItem(consentKey);
+      } catch (error) {
+        storedChoice = null;
+      }
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () {
+        window.dataLayer.push(arguments);
+      };
+
+      const analyticsGranted = storedChoice === 'granted';
+      let tagRequested = false;
+
+      function loadGoogleTag() {
+        if (tagRequested) return;
+        tagRequested = true;
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+        document.head.appendChild(script);
+
+        window.gtag('js', new Date());
+        window.gtag('config', measurementId, {
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false,
+        });
+      }
+
+      window.gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: analyticsGranted ? 'granted' : 'denied',
+        wait_for_update: 500,
+      });
+      window.gtag('set', 'ads_data_redaction', true);
+
+      window.uketaAnalyticsConsent = {
+        choice: storedChoice,
+        load: loadGoogleTag,
+        update(choice) {
+          const granted = choice === 'granted';
+          window.gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: granted ? 'granted' : 'denied',
+          });
+
+          this.choice = granted ? 'granted' : 'denied';
+          try {
+            window.localStorage.setItem(consentKey, this.choice);
+          } catch (error) {
+            // Keep the choice for the current page when storage is unavailable.
+          }
+          if (granted) loadGoogleTag();
+        },
+      };
+
+      if (analyticsGranted) loadGoogleTag();
+    })();
+  </script>
   {structuredData && (
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   )}
@@ -129,6 +199,26 @@ import '../styles/global.css';
     </div>
   </footer>
 
+  <section
+    id="uketa-cookie-consent"
+    role="dialog"
+    aria-label="Préférences relatives aux cookies"
+    aria-live="polite"
+    hidden
+  >
+    <p>
+      Nous utilisons Google Analytics pour mesurer l’audience et améliorer ce site.
+      Vous pouvez accepter ou refuser les cookies analytiques.
+      {' '}<a href="/privacy/">En savoir plus</a>
+    </p>
+    <div class="uketa-cookie-actions">
+      <button id="uketa-cookie-reject" class="uketa-cookie-button" type="button">Tout refuser</button>
+      <button id="uketa-cookie-accept" class="uketa-cookie-button" type="button">Accepter les cookies analytiques</button>
+    </div>
+  </section>
+
+  <button id="uketa-cookie-manage" type="button" hidden>Gérer les cookies</button>
+
   <script is:inline>
     (() => {
       const button = document.getElementById('uketa-sp-menu-btn');
@@ -143,6 +233,40 @@ import '../styles/global.css';
         icon?.classList.toggle('icon-menu', open);
         icon?.classList.toggle('icon-close', !open);
       });
+    })();
+  </script>
+  <script id="uketa-ga4-consent-controls" is:inline>
+    (() => {
+      const consent = window.uketaAnalyticsConsent;
+      const banner = document.getElementById('uketa-cookie-consent');
+      const manageButton = document.getElementById('uketa-cookie-manage');
+      const acceptButton = document.getElementById('uketa-cookie-accept');
+      const rejectButton = document.getElementById('uketa-cookie-reject');
+
+      if (!consent || !banner || !manageButton || !acceptButton || !rejectButton) return;
+
+      function showBanner() {
+        banner.hidden = false;
+        manageButton.hidden = true;
+      }
+
+      function hideBanner() {
+        banner.hidden = true;
+        manageButton.hidden = false;
+      }
+
+      acceptButton.addEventListener('click', () => {
+        consent.update('granted');
+        hideBanner();
+      });
+      rejectButton.addEventListener('click', () => {
+        consent.update('denied');
+        hideBanner();
+      });
+      manageButton.addEventListener('click', showBanner);
+
+      if (consent.choice === 'granted' || consent.choice === 'denied') hideBanner();
+      else showBanner();
     })();
   </script>
 </body>
