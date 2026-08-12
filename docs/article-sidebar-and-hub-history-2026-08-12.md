@@ -38,3 +38,10 @@ the public domain responds from an nginx-hosted WordPress origin rather than the
 Astro/Cloudflare Pages output. Both hub URLs therefore return WordPress 404
 responses. The source pages are generated successfully; the remaining issue is
 that the canonical domain is not yet serving the static deployment.
+
+The production WordPress REST API was also checked directly. Neither `visa` nor
+`entree-uk` exists in the published page collection, neither route appears in
+the WordPress page sitemap, and no archived `200` snapshot was found for either
+URL. The operational conclusion is therefore that these two hubs were not
+available to users as published WordPress pages; they existed only in the Astro
+site prepared for the migration.

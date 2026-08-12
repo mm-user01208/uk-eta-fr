@@ -28,6 +28,7 @@ const {
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import SiteFooter from '../components/SiteFooter.astro';
+import { siteNavigationSections } from '../content/site-navigation';
 import '../styles/global.css';
 ---
 
@@ -161,8 +162,24 @@ import '../styles/global.css';
       <li><a href="/entry/">Demander l'ETA</a></li>
       <li><a href="/status/">Vérifier la demande</a></li>
       <li><a href="/contact/">Contact</a></li>
-      <li><a href="/eta/faq/">FAQ</a></li>
+      <li class="global-nav-more">
+        <a href="/eta/faq/">FAQ <i class="icon icon-bottomarrow" aria-hidden="true"></i></a>
+      </li>
     </ul>
+    <div class="global-nav-expand">
+      <div class="common-nav">
+        {siteNavigationSections.map((section) => (
+          <section class="pc-only">
+            <h2><a href={section.href}>{section.title}</a></h2>
+            <ul class="four-rows">
+              {section.links.map((link) => (
+                <li><a href={link.href}>{link.label}<i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
   </nav>}
 
   {legacyMobileNavHtml ? <Fragment set:html={legacyMobileNavHtml} /> : <nav id="global-nav-sp" class="global-nav sp-only" aria-label="Navigation mobile" aria-hidden="true">
@@ -222,12 +239,33 @@ import '../styles/global.css';
         icon?.classList.toggle('icon-close', !open);
       });
 
-      const desktopMore = document.querySelector('.global-nav.pc-only .global-nav-more');
-      const desktopExpand = document.querySelector('.global-nav.pc-only .global-nav-expand');
+      const desktopNav = document.querySelector('.global-nav.pc-only');
+      const desktopMore = desktopNav?.querySelector('.global-nav-more');
+      const desktopExpand = desktopNav?.querySelector('.global-nav-expand');
+      let desktopNavCloseTimer;
+
+      const setDesktopNavOpen = (open) => {
+        if (!(desktopExpand instanceof HTMLElement) || !(desktopMore instanceof HTMLElement)) return;
+        window.clearTimeout(desktopNavCloseTimer);
+        desktopExpand.style.display = open ? 'block' : 'none';
+        desktopMore.classList.toggle('is-open', open);
+      };
+
+      const scheduleDesktopNavClose = () => {
+        window.clearTimeout(desktopNavCloseTimer);
+        desktopNavCloseTimer = window.setTimeout(() => setDesktopNavOpen(false), 140);
+      };
+
       for (const element of [desktopMore, desktopExpand]) {
-        element?.addEventListener('mouseenter', () => { if (desktopExpand) desktopExpand.style.display = 'block'; });
-        element?.addEventListener('mouseleave', () => { if (desktopExpand) desktopExpand.style.display = 'none'; });
+        element?.addEventListener('mouseenter', () => setDesktopNavOpen(true));
+        element?.addEventListener('mouseleave', scheduleDesktopNavClose);
       }
+      desktopMore?.addEventListener('focusin', () => setDesktopNavOpen(true));
+      desktopExpand?.addEventListener('focusin', () => setDesktopNavOpen(true));
+      desktopNav?.addEventListener('focusout', (event) => {
+        const nextTarget = event.relatedTarget;
+        if (!(nextTarget instanceof Node) || !desktopNav.contains(nextTarget)) scheduleDesktopNavClose();
+      });
 
       const mobileMore = menu.querySelector('.global-nav-more');
       const mobileCommonNav = menu.querySelector('.common-nav');

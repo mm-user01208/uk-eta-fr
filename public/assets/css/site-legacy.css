@@ -10,6 +10,9 @@ button.menu { border: 0; background: transparent; }
 .header-btn .icon-entry { height: 36px; vertical-align: baseline; }
 .global-nav-main { margin: 0; padding: 0; }
 .global-nav-main li:last-child { border-right: 1px solid #4f6995; }
+.global-nav.pc-only .global-nav-more.is-open { background: #395788; }
+.global-nav.pc-only .global-nav-expand { top: 65px; }
+.global-nav.pc-only .global-nav-expand .common-nav { max-height: calc(100vh - 120px); overflow-y: auto; }
 .inner { width: 100%; box-sizing: border-box; }
 
 /* Tailwind utilities assume a 16px root; the legacy theme intentionally uses 10px. */

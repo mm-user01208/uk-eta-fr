@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { title, description, structuredData, breadcrumbs = [], relatedArticles = [] } = Astro.props;
+const visibleRelatedArticles = relatedArticles.slice(0, 3);
 
 const relatedArticleMeta: Record<string, { description: string; image: string }> = {
   '/eta/qu-est-ce-que-eta/': {
@@ -88,7 +89,7 @@ const fallbackImages = [
   '/assets/images/top/kv.webp',
 ];
 
-const relatedCards = relatedArticles.map((article, index) => ({
+const relatedCards = visibleRelatedArticles.map((article, index) => ({
   ...article,
   description: article.description
     ?? relatedArticleMeta[article.href]?.description
@@ -123,11 +124,11 @@ const relatedCards = relatedArticles.map((article, index) => ({
             <ol data-article-toc></ol>
           </nav>
 
-          {relatedArticles.length > 0 && (
+          {visibleRelatedArticles.length > 0 && (
             <section class="article-related article-sidebar-card" aria-labelledby="related-articles-title">
               <h2 id="related-articles-title">Articles connexes</h2>
               <ul>
-                {relatedArticles.map((a) => (
+                {visibleRelatedArticles.map((a) => (
                   <li><a href={a.href}>{a.title}</a></li>
                 ))}
               </ul>
