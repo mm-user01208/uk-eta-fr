@@ -6,10 +6,97 @@ interface Props {
   description?: string;
   structuredData?: object;
   breadcrumbs?: { label: string; href?: string }[];
-  relatedArticles?: { title: string; href: string }[];
+  relatedArticles?: { title: string; href: string; description?: string; image?: string }[];
 }
 
 const { title, description, structuredData, breadcrumbs = [], relatedArticles = [] } = Astro.props;
+
+const relatedArticleMeta: Record<string, { description: string; image: string }> = {
+  '/eta/qu-est-ce-que-eta/': {
+    description: "Découvrez le fonctionnement de l’ETA, les voyageurs concernés et les séjours autorisés.",
+    image: '/wp-content/uploads/2026/03/pc-1.jpg',
+  },
+  '/eta/procedure-demande/': {
+    description: "Suivez les étapes de la demande d’ETA, des informations à préparer jusqu’au résultat.",
+    image: '/wp-content/uploads/2026/04/gkjvINeBor4ekgn1775122469_1775122479.jpg',
+  },
+  '/eta/documents-necessaires/': {
+    description: "Préparez le passeport, la photo et les informations nécessaires avant votre demande.",
+    image: '/wp-content/uploads/2026/04/DJPKsRmq25aDz2i1775122435_1775122446.jpg',
+  },
+  '/eta/pays-eligibles/': {
+    description: "Vérifiez les nationalités concernées par l’autorisation de voyage électronique.",
+    image: '/assets/images/top/kv.webp',
+  },
+  '/eta/tarif/': {
+    description: "Consultez les frais de demande d’ETA et les moyens de paiement disponibles.",
+    image: '/wp-content/uploads/2026/03/pc.jpg',
+  },
+  '/eta/validite-et-delai/': {
+    description: "Retrouvez la durée de validité de l’ETA et les délais à prévoir avant le départ.",
+    image: '/wp-content/uploads/2026/04/DJPKsRmq25aDz2i1775122435_1775122446.jpg',
+  },
+  '/eta/faq/': {
+    description: "Consultez les réponses aux questions fréquentes sur la demande et l’utilisation de l’ETA.",
+    image: '/wp-content/uploads/2026/04/GNBxiTqfWK7rbMv1775122278_1775122413.jpg',
+  },
+  '/entree-uk/transit-correspondance/': {
+    description: "Vérifiez les règles d’ETA lors d’un transit ou d’une correspondance au Royaume-Uni.",
+    image: '/assets/images/top/kv.webp',
+  },
+  '/entree-uk/irlande-du-nord/': {
+    description: "Comprenez les règles d’entrée en Irlande du Nord et les situations nécessitant une ETA.",
+    image: '/assets/images/top/kv.webp',
+  },
+  '/entree-uk/aeroport-heathrow/': {
+    description: "Préparez votre arrivée à Heathrow, le contrôle frontalier et le trajet vers Londres.",
+    image: '/assets/images/top/kv.webp',
+  },
+  '/visa/difference-eta-visa/': {
+    description: "Comparez l’ETA et le visa britannique selon la durée et le motif de votre séjour.",
+    image: '/wp-content/uploads/2026/03/pc-1.jpg',
+  },
+  '/visa/creative-worker/': {
+    description: "Découvrez les conditions applicables aux artistes et professionnels créatifs invités.",
+    image: '/wp-content/uploads/2026/03/pc-4.jpg',
+  },
+  '/visa/permitted-paid-engagement/': {
+    description: "Vérifiez les activités rémunérées ponctuelles autorisées et leurs conditions d’entrée.",
+    image: '/wp-content/uploads/2026/03/pc-4.jpg',
+  },
+  '/info/a-propos/': {
+    description: "Découvrez le service d’accompagnement proposé pour les demandes d’ETA britanniques.",
+    image: '/wp-content/uploads/2026/04/GNBxiTqfWK7rbMv1775122278_1775122413.jpg',
+  },
+  '/info/conditions-generales/': {
+    description: "Consultez les conditions applicables à l’utilisation du service et à votre demande.",
+    image: '/wp-content/uploads/2026/03/pc-5.jpg',
+  },
+  '/info/mentions-legales/': {
+    description: "Retrouvez les informations légales relatives à l’éditeur et au service proposé.",
+    image: '/wp-content/uploads/2026/03/pc-5.jpg',
+  },
+  '/info/politique-confidentialite/': {
+    description: "Informez-vous sur la collecte, l’utilisation et la protection de vos données personnelles.",
+    image: '/wp-content/uploads/2026/03/PC-3.jpg',
+  },
+};
+
+const fallbackImages = [
+  '/wp-content/uploads/2026/03/pc-1.jpg',
+  '/wp-content/uploads/2026/04/gkjvINeBor4ekgn1775122469_1775122479.jpg',
+  '/assets/images/top/kv.webp',
+];
+
+const relatedCards = relatedArticles.map((article, index) => ({
+  ...article,
+  description: article.description
+    ?? relatedArticleMeta[article.href]?.description
+    ?? `Consultez notre guide consacré à ${article.title.toLocaleLowerCase('fr')}.`,
+  image: article.image
+    ?? relatedArticleMeta[article.href]?.image
+    ?? fallbackImages[index % fallbackImages.length],
+}));
 ---
 
 <Layout title={title} description={description} structuredData={structuredData} bodyClass="article-page">
@@ -31,13 +118,13 @@ const { title, description, structuredData, breadcrumbs = [], relatedArticles = 
     <div class="article-columns">
       <aside class="article-sidebar" aria-label="Navigation de l’article">
         <div class="article-sidebar-inner">
-          <nav class="article-toc" aria-label="Sommaire">
+          <nav class="article-toc article-sidebar-card" aria-label="Sommaire">
             <h2>Sur cette page</h2>
             <ol data-article-toc></ol>
           </nav>
 
           {relatedArticles.length > 0 && (
-            <section class="article-related" aria-labelledby="related-articles-title">
+            <section class="article-related article-sidebar-card" aria-labelledby="related-articles-title">
               <h2 id="related-articles-title">Articles connexes</h2>
               <ul>
                 {relatedArticles.map((a) => (
@@ -54,6 +141,37 @@ const { title, description, structuredData, breadcrumbs = [], relatedArticles = 
         <slot />
       </article>
     </div>
+
+    <div class="article-postlude">
+      <section class="article-conversion" aria-labelledby="article-conversion-title">
+        <h2 id="article-conversion-title">Une ETA est nécessaire pour voyager au Royaume-Uni</h2>
+        <p>Le traitement peut prendre jusqu’à 3 jours ouvrables. Effectuez votre demande suffisamment tôt avant le départ.</p>
+        <a class="article-conversion-button" href="/entry/">
+          <span>
+            <strong>Commencer la demande d’ETA</strong>
+            <small>Effectuez les démarches au moins 72 heures avant le départ</small>
+          </span>
+          <span class="article-conversion-arrow" aria-hidden="true">›</span>
+        </a>
+      </section>
+
+      {relatedCards.length > 0 && (
+        <section class="article-card-section" aria-labelledby="article-card-section-title">
+          <h2 id="article-card-section-title">Articles connexes</h2>
+          <div class="article-card-grid">
+            {relatedCards.map((article) => (
+              <a class="article-card" href={article.href}>
+                <img src={article.image} alt="" loading="lazy" decoding="async" />
+                <span class="article-card-body">
+                  <strong>{article.title}</strong>
+                  <span>{article.description}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
   </div>
 </Layout>
 
@@ -64,6 +182,13 @@ const { title, description, structuredData, breadcrumbs = [], relatedArticles = 
   if (content instanceof HTMLElement && toc instanceof HTMLOListElement) {
     const headings = [...content.querySelectorAll('h2, h3')];
     const usedIds = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
+
+    const createHeadingLink = (heading: HTMLHeadingElement, fallbackIndex: number) => {
+      const link = document.createElement('a');
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent?.trim() || `Section ${fallbackIndex + 1}`;
+      return link;
+    };
 
     headings.forEach((heading, index) => {
       if (!heading.id) {
@@ -84,15 +209,80 @@ const { title, description, structuredData, breadcrumbs = [], relatedArticles = 
         heading.id = id;
         usedIds.add(id);
       }
-
-      const item = document.createElement('li');
-      item.className = heading.tagName === 'H3' ? 'article-toc-level-3' : 'article-toc-level-2';
-      const link = document.createElement('a');
-      link.href = `#${heading.id}`;
-      link.textContent = heading.textContent?.trim() || `Section ${index + 1}`;
-      item.append(link);
-      toc.append(item);
     });
+
+    let currentSection: HTMLLIElement | null = null;
+    let currentSublist: HTMLOListElement | null = null;
+
+    headings.forEach((heading, index) => {
+      if (!(heading instanceof HTMLHeadingElement)) return;
+
+      if (heading.tagName === 'H2') {
+        const item = document.createElement('li');
+        item.className = 'article-toc-level-2';
+        const row = document.createElement('div');
+        row.className = 'article-toc-row';
+        row.append(createHeadingLink(heading, index));
+        item.append(row);
+        toc.append(item);
+        currentSection = item;
+        currentSublist = null;
+        return;
+      }
+
+      const subitem = document.createElement('li');
+      subitem.className = 'article-toc-level-3';
+      subitem.append(createHeadingLink(heading, index));
+
+      if (!currentSection) {
+        toc.append(subitem);
+        return;
+      }
+
+      if (!currentSublist) {
+        currentSublist = document.createElement('ol');
+        currentSublist.className = 'article-toc-sublist';
+        currentSublist.hidden = true;
+        currentSublist.id = `toc-children-${currentSection.querySelector('a')?.getAttribute('href')?.slice(1) || index}`;
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'article-toc-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', currentSublist.id);
+        toggle.setAttribute('aria-label', 'Afficher les sous-sections');
+        toggle.innerHTML = '<span aria-hidden="true"></span>';
+        currentSection.querySelector('.article-toc-row')?.append(toggle);
+        currentSection.append(currentSublist);
+        const controlledSublist = currentSublist;
+
+        toggle.addEventListener('click', () => {
+          const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+          toggle.setAttribute('aria-expanded', String(willOpen));
+          toggle.setAttribute('aria-label', willOpen ? 'Masquer les sous-sections' : 'Afficher les sous-sections');
+          controlledSublist.hidden = !willOpen;
+        });
+      }
+
+      currentSublist.append(subitem);
+    });
+
+    const revealCurrentHash = () => {
+      if (!window.location.hash) return;
+      const currentLink = [...toc.querySelectorAll('a')]
+        .find((link) => link.getAttribute('href') === window.location.hash);
+      const sublist = currentLink?.closest('.article-toc-sublist');
+      const toggle = sublist?.parentElement?.querySelector('.article-toc-toggle');
+
+      if (sublist instanceof HTMLOListElement && toggle instanceof HTMLButtonElement) {
+        sublist.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Masquer les sous-sections');
+      }
+    };
+
+    revealCurrentHash();
+    window.addEventListener('hashchange', revealCurrentHash);
 
     if (headings.length === 0) {
       toc.closest('.article-toc')?.remove();
