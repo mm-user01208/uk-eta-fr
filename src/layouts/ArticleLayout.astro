@@ -29,23 +29,73 @@ const { title, description, structuredData, breadcrumbs = [], relatedArticles = 
     )}
 
     <div class="article-columns">
+      <aside class="article-sidebar" aria-label="Navigation de l’article">
+        <div class="article-sidebar-inner">
+          <nav class="article-toc" aria-label="Sommaire">
+            <h2>Sur cette page</h2>
+            <ol data-article-toc></ol>
+          </nav>
+
+          {relatedArticles.length > 0 && (
+            <section class="article-related" aria-labelledby="related-articles-title">
+              <h2 id="related-articles-title">Articles connexes</h2>
+              <ul>
+                {relatedArticles.map((a) => (
+                  <li><a href={a.href}>{a.title}</a></li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      </aside>
+
       <article class="article-content">
         <h1>{title}</h1>
         <slot />
       </article>
-
-      {relatedArticles.length > 0 && (
-        <aside class="article-related" aria-label="Articles connexes">
-          <div>
-            <h2>Articles connexes</h2>
-            <ul>
-              {relatedArticles.map((a) => (
-                <li><a href={a.href}>{a.title}</a></li>
-              ))}
-            </ul>
-          </div>
-        </aside>
-      )}
     </div>
   </div>
 </Layout>
+
+<script>
+  const content = document.querySelector('.article-content');
+  const toc = document.querySelector('[data-article-toc]');
+
+  if (content instanceof HTMLElement && toc instanceof HTMLOListElement) {
+    const headings = [...content.querySelectorAll('h2, h3')];
+    const usedIds = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
+
+    headings.forEach((heading, index) => {
+      if (!heading.id) {
+        const baseId = heading.textContent
+          ?.normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '') || `section-${index + 1}`;
+        let id = baseId;
+        let suffix = 2;
+
+        while (usedIds.has(id)) {
+          id = `${baseId}-${suffix}`;
+          suffix += 1;
+        }
+
+        heading.id = id;
+        usedIds.add(id);
+      }
+
+      const item = document.createElement('li');
+      item.className = heading.tagName === 'H3' ? 'article-toc-level-3' : 'article-toc-level-2';
+      const link = document.createElement('a');
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent?.trim() || `Section ${index + 1}`;
+      item.append(link);
+      toc.append(item);
+    });
+
+    if (headings.length === 0) {
+      toc.closest('.article-toc')?.remove();
+    }
+  }
+</script>

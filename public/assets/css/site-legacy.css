@@ -184,7 +184,7 @@ footer .common-nav p { font-size: 1.6rem; }
 .article-breadcrumbs li { display: flex; align-items: center; gap: 8px; list-style: none; font-size: 1.3rem; }
 .article-breadcrumbs a { text-decoration: none; }
 .article-breadcrumbs a:hover { text-decoration: underline; }
-.article-columns { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 44px; align-items: start; }
+.article-columns { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 44px; align-items: start; }
 .article-content { min-width: 0; color: #18212b; }
 .article-content > h1 {
   margin: 0 0 28px;
@@ -212,14 +212,33 @@ footer .common-nav p { font-size: 1.6rem; }
 .article-content ol { margin: 0 0 24px; padding-left: 28px; }
 .article-content li { margin: 5px 0; }
 .article-content a { color: #195a9b; text-decoration: underline; text-underline-offset: 2px; }
-.article-related { min-width: 0; }
-.article-related > div { position: sticky; top: 24px; padding: 22px; background: #f4f7fa; border-radius: 7px; }
+.article-content h2,
+.article-content h3 { scroll-margin-top: 24px; }
+.article-sidebar {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+.article-sidebar-inner {
+  padding: 22px;
+  background: #f4f7fa;
+  border-radius: 7px;
+}
+.article-toc h2,
 .article-related h2 { margin: 0 0 13px; color: #102e6c; font-size: 1.6rem; line-height: 1.4; font-weight: 700; }
+.article-toc ol,
 .article-related ul { margin: 0; padding: 0; }
+.article-toc li,
 .article-related li { margin: 0; padding: 8px 0; border-bottom: 1px solid #dde4ec; list-style: none; font-size: 1.4rem; line-height: 1.45; }
-.article-related li:last-child { border-bottom: 0; }
-.article-related a { color: #195a9b; text-decoration: none; }
+.article-toc .article-toc-level-3 { padding-left: 16px; font-size: 1.3rem; }
+.article-toc a,
+.article-related a { display: block; color: #195a9b; text-decoration: none; }
+.article-toc a:hover,
 .article-related a:hover { text-decoration: underline; }
+.article-related { margin-top: 24px; padding-top: 20px; border-top: 2px solid #d5dde7; }
+.article-related li:last-child { border-bottom: 0; }
 .article-faq { margin-top: 28px; }
 .article-faq details { margin: 0 0 14px; border: 1px solid #d5dbe2; border-radius: 7px; overflow: hidden; }
 .article-faq summary {
@@ -316,7 +335,7 @@ footer .common-nav p { font-size: 1.6rem; }
   .article-content h2 { margin-top: 34px; font-size: 2rem; }
   .article-content p,
   .article-content li { font-size: 1.5rem; line-height: 1.8; }
-  .article-related > div { position: static; }
+  .article-sidebar { position: static; max-height: none; overflow-y: visible; }
   #uketa-cookie-consent { right: 10px; bottom: 10px; left: 10px; padding: 16px; }
   .uketa-cookie-actions { display: grid; grid-template-columns: 1fr; }
   .uketa-cookie-button { width: 100%; }
