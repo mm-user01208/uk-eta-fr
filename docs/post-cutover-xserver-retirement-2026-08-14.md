@@ -37,14 +37,15 @@ Public DNS still contains XServer mail records:
 - SPF authorizes `sv16842.xserver.jp` and XServer's sender service.
 
 The owner reports that no `@eudiasporacouncil.org` mailbox or mail server was
-created. An MX record identifies a possible delivery destination but does not
-prove that a mailbox exists or is used. These records therefore appear to be
-defaults or leftovers from adding the domain to XServer, not an active XServer
-dependency. One final check of XServer's mail-account list is sufficient. If it
-is empty, remove the obsolete mail host records and publish an explicit no-mail
-policy (null MX and SPF `-all`; optionally DMARC `p=reject`) before retiring the
-server. Do not apply that policy if any third-party service sends mail using
-this domain in its From address.
+created. On 2026-08-14, the XServer mail-account screen for the domain was
+confirmed to show `no mail accounts`. An MX record identifies a possible
+delivery destination but does not prove that a mailbox exists or is used.
+These records are therefore defaults or leftovers from adding the domain to
+XServer, not an active XServer dependency. Remove the obsolete mail host
+records and publish an explicit no-mail policy (null MX and SPF `-all`;
+optionally DMARC `p=reject`) before retiring the server. Do not apply that
+policy if any third-party service sends mail using this domain in its From
+address.
 
 ### `www` redirect
 
@@ -67,9 +68,8 @@ unpatched for the remainder of the contract.
 2. Keep XServer and WordPress unchanged for an initial two-to-four-week
    rollback window after the 2026-08-14 cutover.
 3. Replace the WordPress-based `www` redirect with a Cloudflare-controlled 301.
-4. Confirm once that XServer's mail-account list for the domain is empty. If it
-   is empty and no third party sends as this domain, replace the stale XServer
-   mail DNS with a no-mail policy.
+4. The XServer mail-account list is confirmed empty. If no third party sends as
+   this domain, replace the stale XServer mail DNS with a no-mail policy.
 5. Export and retain a full WordPress backup: files, database, uploads, server
    settings, DNS records, and any required mail data. Store it outside XServer.
 6. After the rollback window and final route/content checks, remove public
