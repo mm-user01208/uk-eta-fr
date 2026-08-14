@@ -1,15 +1,16 @@
-# The edited Astro routes are canonical. Preserve old WordPress URLs as aliases.
-/page_cat/uketa /eta/ 301
-/page_cat/uketa/ /eta/ 301
-/service /eta/qu-est-ce-que-eta/ 301
-/service/ /eta/qu-est-ce-que-eta/ 301
-/fee /eta/tarif/ 301
-/fee/ /eta/tarif/ 301
-/page_cat/site /info/ 301
-/page_cat/site/ /info/ 301
-/agreement /info/conditions-generales/ 301
-/agreement/ /info/conditions-generales/ 301
-/mentions-legales /info/mentions-legales/ 301
-/mentions-legales/ /info/mentions-legales/ 301
-/privacy /info/politique-confidentialite/ 301
-/privacy/ /info/politique-confidentialite/ 301
+# The edited Astro routes are canonical. Serve them at old WordPress aliases too.
+# Use 200 rewrites to avoid loops in browsers that cached the former reverse 301s.
+/page_cat/uketa /eta/ 200
+/page_cat/uketa/ /eta/ 200
+/service /eta/qu-est-ce-que-eta/ 200
+/service/ /eta/qu-est-ce-que-eta/ 200
+/fee /eta/tarif/ 200
+/fee/ /eta/tarif/ 200
+/page_cat/site /info/ 200
+/page_cat/site/ /info/ 200
+/agreement /info/conditions-generales/ 200
+/agreement/ /info/conditions-generales/ 200
+/mentions-legales /info/mentions-legales/ 200
+/mentions-legales/ /info/mentions-legales/ 200
+/privacy /info/politique-confidentialite/ 200
+/privacy/ /info/politique-confidentialite/ 200
