@@ -10,16 +10,17 @@ const relatedArticles = [
   { title: "Procédure de demande", href: "/eta/procedure-demande/" },
 ];
 ---
-<ArticleLayout title="Pays éligibles à l'ETA pour le Royaume-Uni" description="Liste complète des 87 nationalités pouvant demander une autorisation de voyage électronique (ETA) pour le Royaume-Uni, classées par région." breadcrumbs={breadcrumbs} relatedArticles={relatedArticles}>
+<ArticleLayout title="Pays éligibles à l'ETA pour le Royaume-Uni" description="Liste à jour des 83 nationalités et territoires pouvant demander une autorisation de voyage électronique (ETA) pour le Royaume-Uni, classés par région." breadcrumbs={breadcrumbs} relatedArticles={relatedArticles}>
 
-<p>L'ETA (Electronic Travel Authorisation) du Royaume-Uni est accessible aux ressortissants de <strong>87 pays</strong> qui bénéficient d'une exemption de visa pour les séjours de courte durée. Ces pays sont considérés comme présentant un « faible risque » par les autorités britanniques. Voici la liste complète, classée par région géographique.</p>
+<p>L'ETA (Electronic Travel Authorisation) du Royaume-Uni est actuellement accessible aux ressortissants de <strong>83 pays et territoires</strong>. L'éligibilité dépend de la nationalité indiquée sur le passeport. Voici la liste officielle à jour, classée par région géographique.</p>
 
 <h2>Europe</h2>
 
-<p>Depuis le 2 avril 2025, tous les citoyens de l'Union européenne et de l'Espace économique européen sont soumis à l'obligation d'ETA pour se rendre au Royaume-Uni. La <strong class="text-[#1e3a5f]">France</strong> fait bien entendu partie de cette liste.</p>
+<p>Depuis le 2 avril 2025, les ressortissants des pays européens éligibles, dont la <strong class="text-[#1e3a5f]">France</strong>, doivent obtenir une ETA avant de se rendre au Royaume-Uni. Les citoyens irlandais n'ont pas besoin d'ETA.</p>
 
 <ul>
 <li><strong>France</strong> 🇫🇷</li>
+<li>Andorre</li>
 <li>Allemagne</li>
 <li>Autriche</li>
 <li>Belgique</li>
@@ -32,7 +33,6 @@ const relatedArticles = [
 <li>Finlande</li>
 <li>Grèce</li>
 <li>Hongrie</li>
-<li>Irlande</li>
 <li>Islande</li>
 <li>Italie</li>
 <li>Lettonie</li>
@@ -40,16 +40,19 @@ const relatedArticles = [
 <li>Lituanie</li>
 <li>Luxembourg</li>
 <li>Malte</li>
+<li>Monaco</li>
 <li>Norvège</li>
 <li>Pays-Bas</li>
 <li>Pologne</li>
 <li>Portugal</li>
 <li>République tchèque</li>
 <li>Roumanie</li>
+<li>Saint-Marin</li>
 <li>Slovaquie</li>
 <li>Slovénie</li>
 <li>Suède</li>
 <li>Suisse</li>
+<li>Cité du Vatican</li>
 </ul>
 
 <h2>Asie</h2>
@@ -65,7 +68,10 @@ const relatedArticles = [
 <li>Macao (SAR)</li>
 <li>Malaisie</li>
 <li>Brunei</li>
+<li>Maldives</li>
 </ul>
+
+<p>Les titulaires d'un passeport délivré par Taïwan peuvent demander une ETA uniquement si leur passeport comporte le numéro de la carte d'identité délivrée par l'autorité compétente à Taïwan.</p>
 
 <h2>Amériques</h2>
 
@@ -81,14 +87,15 @@ const relatedArticles = [
 <li>Panama</li>
 <li>Paraguay</li>
 <li>Guatemala</li>
-<li>Honduras</li>
-<li>Nicaragua</li>
-<li>El Salvador</li>
-<li>Trinité-et-Tobago</li>
+<li>Guyana</li>
 <li>Bahamas</li>
 <li>Barbade</li>
 <li>Antigua-et-Barbuda</li>
 <li>Saint-Kitts-et-Nevis</li>
+<li>Saint-Vincent-et-les-Grenadines</li>
+<li>Belize</li>
+<li>Grenade</li>
+<li>Pérou</li>
 </ul>
 
 <h2>Océanie</h2>
@@ -97,11 +104,14 @@ const relatedArticles = [
 <li>Australie</li>
 <li>Nouvelle-Zélande</li>
 <li>Papouasie-Nouvelle-Guinée</li>
-<li>Fidji</li>
 <li>Tonga</li>
 <li>Samoa</li>
 <li>Kiribati</li>
 <li>Tuvalu</li>
+<li>Îles Marshall</li>
+<li>États fédérés de Micronésie</li>
+<li>Palaos</li>
+<li>Îles Salomon</li>
 </ul>
 
 <h2>Moyen-Orient</h2>
@@ -114,7 +124,6 @@ const relatedArticles = [
 <li>Bahreïn</li>
 <li>Oman</li>
 <li>Arabie saoudite</li>
-<li>Jordanie</li>
 </ul>
 
 <h2>Afrique</h2>
@@ -122,9 +131,6 @@ const relatedArticles = [
 <ul>
 <li>Maurice</li>
 <li>Seychelles</li>
-<li>Botswana</li>
-<li>Namibie</li>
-<li>Afrique du Sud</li>
 </ul>
 
 <h2>Informations importantes pour les voyageurs français</h2>
@@ -140,7 +146,9 @@ const relatedArticles = [
 
 <h2>Pays non éligibles à l'ETA</h2>
 
-<p>Les ressortissants de pays ne figurant pas dans la liste ci-dessus doivent obtenir un <strong>visa classique</strong> auprès de l'ambassade ou du consulat britannique de leur pays de résidence. La procédure de visa est distincte de celle de l'ETA et implique généralement un entretien en personne et la fourniture de documents complémentaires (justificatifs financiers, lettre d'invitation, preuve d'hébergement, etc.).</p>
+<p>Les ressortissants de pays ne figurant pas dans la liste ci-dessus ne peuvent pas obtenir d'ETA et doivent <strong>vérifier s'ils ont besoin d'un visa</strong> avant leur voyage. La procédure de visa est distincte de celle de l'ETA.</p>
+
+<p>Cette liste peut évoluer. Avant toute demande, vérifiez également la <a href="https://www.gov.uk/guidance/check-when-you-can-get-an-electronic-travel-authorisation-eta" target="_blank" rel="noopener noreferrer">liste officielle publiée par le gouvernement britannique</a>.</p>
 
 <p>Pour plus d'informations sur les documents nécessaires à votre demande, consultez notre page <a href="/eta/documents-necessaires/">Documents nécessaires</a>.</p>
 

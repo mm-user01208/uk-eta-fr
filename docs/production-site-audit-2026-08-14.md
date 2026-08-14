@@ -1,5 +1,9 @@
 # Production site audit — 2026-08-14
 
+> Resolution update: the £20 government fee, current 83-country/territory
+> eligibility list, and no-refund-on-rejection policy were applied on
+> 2026-08-14. See `docs/eta-official-content-update-2026-08-14.md`.
+
 ## Summary
 
 The Astro build and Cloudflare Pages deployment are healthy. The remaining
