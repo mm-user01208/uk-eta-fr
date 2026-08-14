@@ -3,9 +3,9 @@
 ## Decision
 
 The production web site has moved to the GitHub-managed Astro build deployed
-by Cloudflare Pages. XServer must not be cancelled or the WordPress installation
-deleted yet because XServer still handles mail and the `www` redirect still
-passes through WordPress.
+by Cloudflare Pages. XServer is no longer required for the apex website. Keep
+the WordPress installation temporarily only for rollback and until the `www`
+redirect is moved away from WordPress.
 
 ## Verified production state
 
@@ -25,17 +25,23 @@ passes through WordPress.
 
 ## Remaining XServer dependencies
 
-### Mail
+### Stale mail DNS (not a confirmed service dependency)
 
-Public DNS still routes mail to XServer:
+Public DNS still contains XServer mail records:
 
 - MX: `sv16842.xserver.jp`
 - `mail`, `smtp`, `imap`, and `pop`: `85.131.213.168`
+- SPF authorizes `sv16842.xserver.jp` and XServer's sender service.
 
-The existence and use of any mailbox must be checked before server retirement.
-If mail is required after XServer expiry, migrate the mailbox and its messages,
-then update MX, SPF, DKIM, DMARC, and mail client settings and verify real send
-and receive tests.
+The owner reports that no `@eudiasporacouncil.org` mailbox or mail server was
+created. An MX record identifies a possible delivery destination but does not
+prove that a mailbox exists or is used. These records therefore appear to be
+defaults or leftovers from adding the domain to XServer, not an active XServer
+dependency. One final check of XServer's mail-account list is sufficient. If it
+is empty, remove the obsolete mail host records and publish an explicit no-mail
+policy (null MX and SPF `-all`; optionally DMARC `p=reject`) before retiring the
+server. Do not apply that policy if any third-party service sends mail using
+this domain in its From address.
 
 ### `www` redirect
 
@@ -55,19 +61,21 @@ unpatched for the remainder of the contract.
 1. Keep XServer and WordPress unchanged for an initial two-to-four-week
    rollback window after the 2026-08-14 cutover.
 2. Replace the WordPress-based `www` redirect with a Cloudflare-controlled 301.
-3. Confirm whether any `@eudiasporacouncil.org` mailbox is used. Migrate mail if
-   XServer will not be renewed.
+3. Confirm once that XServer's mail-account list for the domain is empty. If it
+   is empty and no third party sends as this domain, replace the stale XServer
+   mail DNS with a no-mail policy.
 4. Export and retain a full WordPress backup: files, database, uploads, server
    settings, DNS records, and any required mail data. Store it outside XServer.
 5. After the rollback window and final route/content checks, remove public
    access to WordPress or retire the installation. If it is retained, restrict
    access and keep WordPress, plugins, and themes patched.
-6. Before disabling XServer automatic renewal, verify whether
-   `eudiasporacouncil.org` uses the XServer permanent-free-domain benefit. That
-   benefit applies only while the server contract remains active, and moving a
-   benefited domain can require a one-year renewal fee.
-7. If no other site or mail service needs XServer, disable automatic renewal
-   after the domain-benefit and mail checks. The paid service remains usable
+6. The XServer account screen shows both the permanent-free-domain benefit and
+   one-year-free-domain benefit as `unapplied`. The domain's registrar is
+   PSI-Japan, Inc., not XServer. Therefore the benefit and its possible
+   one-year release fee do not apply to `eudiasporacouncil.org` unless the owner
+   later chooses to transfer the domain to XServer and apply the benefit.
+7. If no other site or service needs XServer, disable automatic renewal. The
+   paid service remains usable
    until 2027-03-31; disabling renewal alone is not an immediate shutdown.
 8. Complete the final backup and dependency check well before 2027-03-31. If a
    formal cancellation is submitted, follow XServer's instruction to remove the
@@ -75,7 +83,6 @@ unpatched for the remainder of the contract.
 
 ## Useful interim roles for the paid XServer term
 
-- Existing domain mail until its replacement is ready.
 - A restricted rollback archive for the former WordPress site.
 - A password-protected WordPress staging environment if one is genuinely
   needed.
@@ -88,4 +95,3 @@ term. GitHub and Cloudflare Pages remain the production web architecture.
 - Cancellation: `https://www.xserver.ne.jp/manual/man_order_quit.php`
 - Permanent free-domain benefit:
   `https://www.xserver.ne.jp/manual/man_order_present_domain.php`
-
