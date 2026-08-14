@@ -17,9 +17,9 @@ hostname still reached Xserver rather than Cloudflare Pages.
 ## Pages-side change
 
 `www.eudiasporacouncil.org` was added to the Cloudflare Pages project
-`uk-eta-fr` through the Cloudflare API. The custom domain was accepted but
-remains pending with `CNAME record not set` until the existing DNS record is
-changed.
+`uk-eta-fr` through the Cloudflare API. The old Xserver A record was replaced
+with a proxied CNAME to `uk-eta-fr.pages.dev` on 2026-08-14. Cloudflare now
+reports both the custom-domain verification and HTTP validation as `active`.
 
 ## Required DNS record
 
@@ -30,17 +30,32 @@ Replace the existing `www` record with:
 - Target: `uk-eta-fr.pages.dev`
 - Proxy status: Proxied
 
-The Cloudflare API token available to the project has Pages Write permission
-but does not have DNS Read or DNS Write permission, so the DNS record must be
-changed through the authenticated Cloudflare dashboard or a DNS-enabled API
-token.
+The record was changed through the authenticated Cloudflare dashboard.
 
 ## Completion checks
 
-After the CNAME is saved:
+Checks after the CNAME was saved:
 
-1. Wait for the Pages custom-domain status to become `active`.
-2. Verify the apex and `www` versions of every sitemap path return HTTP 200.
-3. Confirm the three reported pages no longer contain `Page introuvable`.
-4. Confirm the content and canonical URLs point to the apex Astro routes.
+1. Pages custom-domain status: `active`.
+2. `www` home page: HTTP 200 from Cloudflare Pages.
+3. `www` `/eta/tarif/`: HTTP 200 from Cloudflare Pages.
+4. `www` `/eta/pays-eligibles/`: HTTP 200 from Cloudflare Pages.
+5. The old WordPress `Page introuvable` response is no longer served.
 
+## Canonical-host redirect still required
+
+The final canonical-host policy is apex-only. Add a Cloudflare Single Redirect
+using the official `Redirect from WWW to root` pattern:
+
+- Request URL: `https://www.*`
+- Target URL: `https://${1}`
+- Status: `301`
+- Preserve query string: enabled
+
+Keep the proxied `www` CNAME and Pages custom domain after enabling the rule;
+they allow Cloudflare to receive the request before applying the redirect.
+
+The API token currently available to the project does not have permission to
+read or edit zone redirect rules, so this rule must be deployed in the
+authenticated Cloudflare dashboard or with a token that grants
+`Zone > Single Redirect > Edit`.
