@@ -42,10 +42,10 @@ Checks after the CNAME was saved:
 4. `www` `/eta/pays-eligibles/`: HTTP 200 from Cloudflare Pages.
 5. The old WordPress `Page introuvable` response is no longer served.
 
-## Canonical-host redirect still required
+## Canonical-host redirect
 
-The final canonical-host policy is apex-only. Add a Cloudflare Single Redirect
-using the official `Redirect from WWW to root` pattern:
+The final canonical-host policy is apex-only. A Cloudflare Single Redirect was
+deployed using the official `Redirect from WWW to root` pattern:
 
 - Request URL: `https://www.*`
 - Target URL: `https://${1}`
@@ -55,7 +55,10 @@ using the official `Redirect from WWW to root` pattern:
 Keep the proxied `www` CNAME and Pages custom domain after enabling the rule;
 they allow Cloudflare to receive the request before applying the redirect.
 
-The API token currently available to the project does not have permission to
-read or edit zone redirect rules, so this rule must be deployed in the
-authenticated Cloudflare dashboard or with a token that grants
-`Zone > Single Redirect > Edit`.
+Post-deployment checks:
+
+- `https://www.eudiasporacouncil.org/` redirects once with HTTP 301 to the apex
+  home page, which returns HTTP 200.
+- `/eta/tarif/` retains its path and returns HTTP 200 after one redirect.
+- `/eta/pays-eligibles/?test=1` retains both its path and query string and
+  returns HTTP 200 after one redirect.
