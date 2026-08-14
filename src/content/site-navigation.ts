@@ -2,11 +2,11 @@ export const siteNavigationSections = [
   {
     id: 'eta',
     title: 'Infos ETA Royaume-Uni',
-    href: '/page_cat/uketa/',
+    href: '/eta/',
     links: [
       { href: '/', label: 'ETA Royaume-Uni — Accueil' },
-      { href: '/service/', label: "À propos de l’ETA" },
-      { href: '/fee/', label: 'Frais ETA Royaume-Uni' },
+      { href: '/eta/qu-est-ce-que-eta/', label: "À propos de l’ETA" },
+      { href: '/eta/tarif/', label: 'Frais ETA Royaume-Uni' },
       { href: '/eta/pays-eligibles/', label: 'Pays éligibles à l’ETA' },
       { href: '/eta/procedure-demande/', label: 'Procédure de demande' },
       { href: '/eta/documents-necessaires/', label: 'Documents nécessaires' },
@@ -37,14 +37,14 @@ export const siteNavigationSections = [
   {
     id: 'site',
     title: 'Infos du site',
-    href: '/page_cat/site/',
+    href: '/info/',
     links: [
       { href: '/entry/', label: 'Demander l’ETA' },
       { href: '/status/', label: 'Vérifier la demande' },
       { href: '/contact/', label: 'Contact' },
-      { href: '/privacy/', label: 'Politique de confidentialité' },
-      { href: '/mentions-legales/', label: 'Mentions légales' },
-      { href: '/agreement/', label: 'Conditions générales' },
+      { href: '/info/politique-confidentialite/', label: 'Politique de confidentialité' },
+      { href: '/info/mentions-legales/', label: 'Mentions légales' },
+      { href: '/info/conditions-generales/', label: 'Conditions générales' },
       { href: '/info/a-propos/', label: 'À propos de notre service' },
       { href: '/sitemap/', label: 'Plan du site' },
     ],

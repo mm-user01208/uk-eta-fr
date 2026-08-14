@@ -5,13 +5,13 @@ import sitemap from '@astrojs/sitemap';
 
 const site = 'https://eudiasporacouncil.org';
 const redirectedUrls = new Set([
-  '/eta/',
-  '/eta/qu-est-ce-que-eta/',
-  '/eta/tarif/',
-  '/info/',
-  '/info/conditions-generales/',
-  '/info/mentions-legales/',
-  '/info/politique-confidentialite/',
+  '/page_cat/uketa/',
+  '/service/',
+  '/fee/',
+  '/page_cat/site/',
+  '/agreement/',
+  '/mentions-legales/',
+  '/privacy/',
 ].map((path) => new URL(path, site).href));
 
 export default defineConfig({
