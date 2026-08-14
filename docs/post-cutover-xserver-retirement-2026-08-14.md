@@ -17,6 +17,9 @@ redirect is moved away from WordPress.
   hashes and the production apex returned HTTP 200 through Cloudflare.
 - Public authoritative nameservers are `hayes.ns.cloudflare.com` and
   `vita.ns.cloudflare.com`.
+- Public WHOIS lists PSI-Japan, Inc. as the registrar and a registry expiry of
+  2026-09-09. Domain renewal is separate from the XServer server contract and
+  must remain active at the service through which the domain was purchased.
 - The application, status, and contact routes are static maintenance/snapshot
   pages. There is no active form backend or WordPress runtime requirement for
   those routes.
@@ -58,26 +61,29 @@ unpatched for the remainder of the contract.
 
 ## Recommended sequence
 
-1. Keep XServer and WordPress unchanged for an initial two-to-four-week
+1. Verify automatic renewal for the domain itself at its purchase/registrar
+   service before the public registry expiry date of 2026-09-09. This is
+   independent of XServer server renewal.
+2. Keep XServer and WordPress unchanged for an initial two-to-four-week
    rollback window after the 2026-08-14 cutover.
-2. Replace the WordPress-based `www` redirect with a Cloudflare-controlled 301.
-3. Confirm once that XServer's mail-account list for the domain is empty. If it
+3. Replace the WordPress-based `www` redirect with a Cloudflare-controlled 301.
+4. Confirm once that XServer's mail-account list for the domain is empty. If it
    is empty and no third party sends as this domain, replace the stale XServer
    mail DNS with a no-mail policy.
-4. Export and retain a full WordPress backup: files, database, uploads, server
+5. Export and retain a full WordPress backup: files, database, uploads, server
    settings, DNS records, and any required mail data. Store it outside XServer.
-5. After the rollback window and final route/content checks, remove public
+6. After the rollback window and final route/content checks, remove public
    access to WordPress or retire the installation. If it is retained, restrict
    access and keep WordPress, plugins, and themes patched.
-6. The XServer account screen shows both the permanent-free-domain benefit and
+7. The XServer account screen shows both the permanent-free-domain benefit and
    one-year-free-domain benefit as `unapplied`. The domain's registrar is
    PSI-Japan, Inc., not XServer. Therefore the benefit and its possible
    one-year release fee do not apply to `eudiasporacouncil.org` unless the owner
    later chooses to transfer the domain to XServer and apply the benefit.
-7. If no other site or service needs XServer, disable automatic renewal. The
+8. If no other site or service needs XServer, disable automatic renewal. The
    paid service remains usable
    until 2027-03-31; disabling renewal alone is not an immediate shutdown.
-8. Complete the final backup and dependency check well before 2027-03-31. If a
+9. Complete the final backup and dependency check well before 2027-03-31. If a
    formal cancellation is submitted, follow XServer's instruction to remove the
    domain setting before the server usage deadline.
 
