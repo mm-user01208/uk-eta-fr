@@ -20,6 +20,23 @@ route aliases changed after the workbook was created, for 33 tested routes.
 - No page or visual asset exists on the current `pages.dev` deployment without
   also being available on the custom production domain.
 
+## Chromium render verification
+
+After the HTTP comparison, all 33 production routes were loaded and rendered
+sequentially in Headless Chrome 151 at `https://eudiasporacouncil.org`.
+
+- 33/33 routes reached `document.readyState === "complete"`.
+- 33/33 routes rendered a `<main>` element and loaded stylesheets.
+- 0 routes showed a `Page introuvable`, `404`, or `Not Found` title/H1.
+- Chrome reported no page or console errors after the run.
+- 32 routes had no failed image resources.
+- `/sitemap/` rendered but contains a broken legacy image and stale Japanese
+  ETIAS content. It is a real page, but it needs content correction.
+
+The count of 33 must not be interpreted as 33 independent public content
+pages. It consists of 26 canonical pages and seven legacy aliases that render
+the same content as their canonical replacements.
+
 Two content pairs (`/fee/` and `/eta/tarif/`, and `/privacy/` and
 `/info/politique-confidentialite/`) have different response bytes only because
 Cloudflare email-address obfuscation is enabled on the custom domain. The page
@@ -98,4 +115,7 @@ deployment.
 
 `/sitemap/` still has a Japanese title and H1 and no meta description. This is
 the same on both hosts and is therefore a content/SEO task, not a deployment
-difference.
+difference. Browser rendering also confirmed that its body still contains old
+Japanese ETIAS navigation and that this image does not load:
+
+`/wp-content/themes/uketa-fr/images/sitemap/sitemap-title-bg-1024x362.jpg`
