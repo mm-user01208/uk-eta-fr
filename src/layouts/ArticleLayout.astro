@@ -139,6 +139,10 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
 
       <article class="article-content">
         <h1>{title}</h1>
+        <details class="article-toc article-mobile-toc article-sidebar-card">
+          <summary>Sur cette page</summary>
+          <ol data-article-toc data-toc-variant="mobile"></ol>
+        </details>
         <slot />
       </article>
     </div>
@@ -178,9 +182,9 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
 
 <script>
   const content = document.querySelector('.article-content');
-  const toc = document.querySelector('[data-article-toc]');
+  const tocLists = [...document.querySelectorAll('[data-article-toc]')];
 
-  if (content instanceof HTMLElement && toc instanceof HTMLOListElement) {
+  if (content instanceof HTMLElement && tocLists.length > 0) {
     const headings = [...content.querySelectorAll('h2, h3')];
     const usedIds = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
 
@@ -212,81 +216,101 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
       }
     });
 
-    let currentSection: HTMLLIElement | null = null;
-    let currentSublist: HTMLOListElement | null = null;
+    const mobileToc = content.querySelector('.article-mobile-toc');
+    if (mobileToc instanceof HTMLDetailsElement) {
+      const children = [...content.children];
+      const firstSectionIndex = children.findIndex((element) => element.tagName === 'H2');
+      const introCandidates = firstSectionIndex === -1 ? children : children.slice(0, firstSectionIndex);
+      const introduction = introCandidates.find((element) => element.tagName === 'P');
 
-    headings.forEach((heading, index) => {
-      if (!(heading instanceof HTMLHeadingElement)) return;
-
-      if (heading.tagName === 'H2') {
-        const item = document.createElement('li');
-        item.className = 'article-toc-level-2';
-        const row = document.createElement('div');
-        row.className = 'article-toc-row';
-        row.append(createHeadingLink(heading, index));
-        item.append(row);
-        toc.append(item);
-        currentSection = item;
-        currentSublist = null;
-        return;
+      if (introduction) {
+        introduction.after(mobileToc);
       }
+    }
 
-      const subitem = document.createElement('li');
-      subitem.className = 'article-toc-level-3';
-      subitem.append(createHeadingLink(heading, index));
+    tocLists.forEach((toc, tocIndex) => {
+      if (!(toc instanceof HTMLOListElement)) return;
 
-      if (!currentSection) {
-        toc.append(subitem);
-        return;
-      }
+      let currentSection: HTMLLIElement | null = null;
+      let currentSublist: HTMLOListElement | null = null;
 
-      if (!currentSublist) {
-        currentSublist = document.createElement('ol');
-        currentSublist.className = 'article-toc-sublist';
-        currentSublist.hidden = true;
-        currentSublist.id = `toc-children-${currentSection.querySelector('a')?.getAttribute('href')?.slice(1) || index}`;
+      headings.forEach((heading, index) => {
+        if (!(heading instanceof HTMLHeadingElement)) return;
 
-        const toggle = document.createElement('button');
-        toggle.type = 'button';
-        toggle.className = 'article-toc-toggle';
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-controls', currentSublist.id);
-        toggle.setAttribute('aria-label', 'Afficher les sous-sections');
-        toggle.innerHTML = '<span aria-hidden="true"></span>';
-        currentSection.querySelector('.article-toc-row')?.append(toggle);
-        currentSection.append(currentSublist);
-        const controlledSublist = currentSublist;
+        if (heading.tagName === 'H2') {
+          const item = document.createElement('li');
+          item.className = 'article-toc-level-2';
+          const row = document.createElement('div');
+          row.className = 'article-toc-row';
+          row.append(createHeadingLink(heading, index));
+          item.append(row);
+          toc.append(item);
+          currentSection = item;
+          currentSublist = null;
+          return;
+        }
 
-        toggle.addEventListener('click', () => {
-          const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
-          toggle.setAttribute('aria-expanded', String(willOpen));
-          toggle.setAttribute('aria-label', willOpen ? 'Masquer les sous-sections' : 'Afficher les sous-sections');
-          controlledSublist.hidden = !willOpen;
-        });
-      }
+        const subitem = document.createElement('li');
+        subitem.className = 'article-toc-level-3';
+        subitem.append(createHeadingLink(heading, index));
 
-      currentSublist.append(subitem);
+        if (!currentSection) {
+          toc.append(subitem);
+          return;
+        }
+
+        if (!currentSublist) {
+          currentSublist = document.createElement('ol');
+          currentSublist.className = 'article-toc-sublist';
+          currentSublist.hidden = true;
+          currentSublist.id = `toc-${tocIndex}-children-${currentSection.querySelector('a')?.getAttribute('href')?.slice(1) || index}`;
+
+          const toggle = document.createElement('button');
+          toggle.type = 'button';
+          toggle.className = 'article-toc-toggle';
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-controls', currentSublist.id);
+          toggle.setAttribute('aria-label', 'Afficher les sous-sections');
+          toggle.innerHTML = '<span aria-hidden="true"></span>';
+          currentSection.querySelector('.article-toc-row')?.append(toggle);
+          currentSection.append(currentSublist);
+          const controlledSublist = currentSublist;
+
+          toggle.addEventListener('click', () => {
+            const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+            toggle.setAttribute('aria-expanded', String(willOpen));
+            toggle.setAttribute('aria-label', willOpen ? 'Masquer les sous-sections' : 'Afficher les sous-sections');
+            controlledSublist.hidden = !willOpen;
+          });
+        }
+
+        currentSublist.append(subitem);
+      });
+
+      const revealCurrentHash = () => {
+        if (!window.location.hash) return;
+        const currentLink = [...toc.querySelectorAll('a')]
+          .find((link) => link.getAttribute('href') === window.location.hash);
+        const sublist = currentLink?.closest('.article-toc-sublist');
+        const toggle = sublist?.parentElement?.querySelector('.article-toc-toggle');
+
+        if (sublist instanceof HTMLOListElement && toggle instanceof HTMLButtonElement) {
+          sublist.hidden = false;
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.setAttribute('aria-label', 'Masquer les sous-sections');
+        }
+
+        if (currentLink && mobileToc instanceof HTMLDetailsElement && mobileToc.contains(toc)) {
+          mobileToc.open = true;
+        }
+      };
+
+      revealCurrentHash();
+      window.addEventListener('hashchange', revealCurrentHash);
     });
 
-    const revealCurrentHash = () => {
-      if (!window.location.hash) return;
-      const currentLink = [...toc.querySelectorAll('a')]
-        .find((link) => link.getAttribute('href') === window.location.hash);
-      const sublist = currentLink?.closest('.article-toc-sublist');
-      const toggle = sublist?.parentElement?.querySelector('.article-toc-toggle');
-
-      if (sublist instanceof HTMLOListElement && toggle instanceof HTMLButtonElement) {
-        sublist.hidden = false;
-        toggle.setAttribute('aria-expanded', 'true');
-        toggle.setAttribute('aria-label', 'Masquer les sous-sections');
-      }
-    };
-
-    revealCurrentHash();
-    window.addEventListener('hashchange', revealCurrentHash);
-
     if (headings.length === 0) {
-      toc.closest('.article-toc')?.remove();
+      tocLists.forEach((toc) => toc.closest('.article-toc')?.remove());
     }
   }
 </script>
