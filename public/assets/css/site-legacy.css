@@ -676,7 +676,7 @@ footer .common-nav p { font-size: 1.6rem; }
   .article-card-section { margin-top: 48px; }
   .article-card-section > h2 { margin-bottom: 22px; font-size: 2.3rem; }
   .article-card-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .article-card > img { height: auto; aspect-ratio: 16 / 9; }
+  .article-card > img { height: auto; aspect-ratio: 32 / 9; object-position: center; }
   .mobile-site-nav {
     max-height: calc(100vh - 74px);
     overflow-y: auto;

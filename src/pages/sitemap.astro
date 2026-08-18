@@ -2,32 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { siteNavigationSections } from '../content/site-navigation';
 
-const etaActionHrefs = new Set(['/entry/', '/status/']);
-const etaActionLinks = siteNavigationSections
-  .find((section) => section.id === 'site')
-  ?.links.filter((link) => etaActionHrefs.has(link.href)) ?? [];
-
-const sitemapSections = siteNavigationSections.map((section) => {
-  if (section.id === 'eta') {
-    return {
-      ...section,
-      links: [
-        section.links[0],
-        ...etaActionLinks,
-        ...section.links.slice(1),
-      ],
-    };
-  }
-
-  if (section.id === 'site') {
-    return {
-      ...section,
-      links: section.links.filter((link) => !etaActionHrefs.has(link.href)),
-    };
-  }
-
-  return section;
-});
+const sitemapSections = siteNavigationSections;
 
 const canonicalPageCount = new Set(
   sitemapSections.flatMap((section) => [section.href, ...section.links.map((link) => link.href)]),
