@@ -8,7 +8,6 @@ interface Props {
   headerDescription?: string;
   legacyHeaderHtml?: string;
   legacyDesktopNavHtml?: string;
-  legacyMobileNavHtml?: string;
   legacyMainHtml?: string;
   legacyFooterFixedHtml?: string;
 }
@@ -22,7 +21,6 @@ const {
   headerDescription = 'Faire la demande d’ETA：UK ETA application site',
   legacyHeaderHtml,
   legacyDesktopNavHtml,
-  legacyMobileNavHtml,
   legacyMainHtml,
   legacyFooterFixedHtml,
 } = Astro.props;
@@ -30,6 +28,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import SiteFooter from '../components/SiteFooter.astro';
 import { siteNavigationSections } from '../content/site-navigation';
 import '../styles/global.css';
+const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
 ---
 
 <!doctype html>
@@ -182,17 +181,40 @@ import '../styles/global.css';
     </div>
   </nav>}
 
-  {legacyMobileNavHtml ? <Fragment set:html={legacyMobileNavHtml} /> : <nav id="global-nav-sp" class="global-nav sp-only" aria-label="Navigation mobile" aria-hidden="true">
-    <ul>
-      <li><a href="/"><p>ETA Royaume-Uni</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/entry/"><p>Demander l'ETA</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/status/"><p>Vérifier la demande</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/contact/"><p>Contact</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/eta/faq/"><p>FAQ</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/eta/qu-est-ce-que-eta/"><p>À propos de l'ETA</p><i class="icon icon-rightarrow"></i></a></li>
-      <li><a href="/eta/tarif/"><p>Frais ETA Royaume-Uni</p><i class="icon icon-rightarrow"></i></a></li>
+  <nav id="global-nav-sp" class="global-nav sp-only mobile-site-nav" aria-label="Navigation mobile" aria-hidden="true">
+    <ul class="mobile-nav-primary">
+      <li><a href="/"><span>Accueil</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+      <li><a href="/entry/"><span>Demander l'ETA</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+      <li><a href="/status/"><span>Vérifier la demande</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+      <li><a href="/contact/"><span>Contact</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
     </ul>
-  </nav>}
+    <div class="mobile-nav-directory">
+      <p class="mobile-nav-directory-title">Guides et informations</p>
+      {siteNavigationSections.map((section) => (
+        <section class="mobile-nav-section">
+          <div class="mobile-nav-section-heading">
+            <a href={section.href}>{section.title}</a>
+            <button
+              class="mobile-nav-directory-toggle"
+              type="button"
+              aria-controls={`mobile-nav-${section.id}`}
+              aria-expanded="false"
+              aria-label={`Afficher les pages de ${section.title}`}
+            >
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+          <ul id={`mobile-nav-${section.id}`} class="mobile-nav-section-links" hidden>
+            {section.links
+              .filter((link) => link.href !== section.href && !mobilePrimaryHrefs.has(link.href))
+              .map((link) => (
+                <li><a href={link.href}><span>{link.label}</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+              ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </nav>
 
   {legacyMainHtml
     ? <Fragment set:html={legacyMainHtml} />
@@ -267,22 +289,17 @@ import '../styles/global.css';
         if (!(nextTarget instanceof Node) || !desktopNav.contains(nextTarget)) scheduleDesktopNavClose();
       });
 
-      const mobileMore = menu.querySelector('.global-nav-more');
-      const mobileCommonNav = menu.querySelector('.common-nav');
-      mobileMore?.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (!mobileCommonNav) return;
-        mobileCommonNav.style.display = getComputedStyle(mobileCommonNav).display === 'none' ? 'block' : 'none';
-      });
-
-      for (const icon of menu.querySelectorAll('.common-nav h2 i')) {
-        icon.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          const list = icon.closest('h2')?.nextElementSibling;
-          if (list instanceof HTMLElement) {
-            list.style.display = getComputedStyle(list).display === 'none' ? 'block' : 'none';
-          }
+      for (const toggle of menu.querySelectorAll('.mobile-nav-directory-toggle')) {
+        toggle.addEventListener('click', () => {
+          if (!(toggle instanceof HTMLButtonElement)) return;
+          const listId = toggle.getAttribute('aria-controls');
+          const list = listId ? document.getElementById(listId) : null;
+          if (!(list instanceof HTMLElement)) return;
+          const open = toggle.getAttribute('aria-expanded') !== 'true';
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', `${open ? 'Masquer' : 'Afficher'} les pages de ${toggle.closest('.mobile-nav-section')?.querySelector('.mobile-nav-section-heading > a')?.textContent?.trim() || 'cette rubrique'}`);
+          list.hidden = !open;
+          toggle.querySelector('span')?.replaceChildren(open ? '−' : '+');
         });
       }
 

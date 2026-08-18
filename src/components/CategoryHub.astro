@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface HubItem {
+  title: string;
+  metaTitle?: string;
+  href: string;
+  description: string;
+  label?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  items: HubItem[];
+  sectionTitle?: string;
+  sectionDescription?: string;
+}
+
+const {
+  title,
+  metaTitle,
+  description,
+  eyebrow,
+  items,
+  sectionTitle = 'Explorez nos guides',
+  sectionDescription = 'Choisissez le sujet qui correspond à votre situation.',
+} = Astro.props;
+---
+
+<Layout title={metaTitle ?? title} description={description} bodyClass="category-hub-page">
+  <div class="category-hub">
+    <nav class="category-hub-breadcrumbs" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a><span aria-hidden="true">›</span><span>{eyebrow}</span>
+    </nav>
+
+    <header class="category-hub-hero">
+      <p class="category-hub-eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+
+    <section class="category-hub-directory" aria-labelledby="category-hub-directory-title">
+      <div class="category-hub-section-heading">
+        <h2 id="category-hub-directory-title">{sectionTitle}</h2>
+        <p>{sectionDescription}</p>
+      </div>
+
+      <div class="category-hub-grid">
+        {items.map((item, index) => (
+          <a class="category-hub-card" href={item.href}>
+            <span class="category-hub-card-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span class="category-hub-card-copy">
+              {item.label && <span class="category-hub-card-label">{item.label}</span>}
+              <strong>{item.title}</strong>
+              <span>{item.description}</span>
+            </span>
+            <span class="category-hub-card-arrow" aria-hidden="true">›</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <aside class="category-hub-cta" aria-label="Demande d'ETA">
+      <div>
+        <strong>Prêt à préparer votre voyage au Royaume-Uni&nbsp;?</strong>
+        <span>Effectuez les démarches au moins 72 heures avant votre départ.</span>
+      </div>
+      <a href="/entry/">Commencer la demande <span aria-hidden="true">›</span></a>
+    </aside>
+  </div>
+</Layout>

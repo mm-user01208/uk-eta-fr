@@ -1,23 +1,14 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import CategoryHub from '../../components/CategoryHub.astro';
+const items = [
+  { title: 'Différence entre ETA et visa', href: '/visa/difference-eta-visa/', label: 'Choisir', description: "Comparez les conditions selon la durée et le motif de votre séjour." },
+  { title: 'Visa travailleur créatif', href: '/visa/creative-worker/', label: 'Travail créatif', description: "Conditions applicables aux artistes, musiciens, cinéastes et danseurs." },
+  { title: 'Engagement rémunéré autorisé', href: '/visa/permitted-paid-engagement/', label: 'Mission ponctuelle', description: "Règles pour les spécialistes invités pour un engagement rémunéré au Royaume-Uni." },
+];
 ---
-<Layout title="Visas pour le Royaume-Uni" description="Informations sur les différents types de visas pour le Royaume-Uni : visa de travail, visa créatif, engagement rémunéré.">
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-[#1e3a5f] mb-8">Visas pour le Royaume-Uni</h1>
-    <p class="text-lg text-gray-600 mb-8">Informations sur les visas et autorisations spéciales pour le Royaume-Uni.</p>
-    <div class="grid md:grid-cols-2 gap-4">
-      <a href="/visa/difference-eta-visa/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Différence entre ETA et visa</h2>
-        <p class="text-sm text-gray-600">Comprendre les différences entre l'ETA pour les courts séjours et le visa pour les séjours longs.</p>
-      </a>
-      <a href="/visa/creative-worker/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Visa travailleur créatif</h2>
-        <p class="text-sm text-gray-600">La concession pour travailleurs créatifs : artistes, musiciens, cinéastes, danseurs.</p>
-      </a>
-      <a href="/visa/permitted-paid-engagement/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Engagement rémunéré autorisé</h2>
-        <p class="text-sm text-gray-600">Visa pour les spécialistes invités pour un engagement rémunéré ponctuel au Royaume-Uni.</p>
-      </a>
-    </div>
-  </div>
-</Layout>
+<CategoryHub
+  title="Visas pour le Royaume-Uni"
+  description="Identifiez l'autorisation adaptée à votre séjour et consultez les règles applicables aux activités professionnelles ponctuelles."
+  eyebrow="Visas et autorisations"
+  items={items}
+/>

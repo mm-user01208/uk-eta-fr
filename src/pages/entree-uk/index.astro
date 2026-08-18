@@ -1,23 +1,15 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import CategoryHub from '../../components/CategoryHub.astro';
+const items = [
+  { title: 'Aéroport de Heathrow', href: '/entree-uk/aeroport-heathrow/', label: 'Arrivée', description: "Terminaux, transports vers Londres et conseils pratiques pour votre arrivée." },
+  { title: 'Irlande du Nord et ETA', href: '/entree-uk/irlande-du-nord/', label: 'Frontières', description: "Règles d'entrée en Irlande du Nord et passage depuis la République d'Irlande." },
+  { title: 'Transit et correspondance', href: '/entree-uk/transit-correspondance/', label: 'Escale', description: "Dans quels cas une ETA est nécessaire lors d'un transit au Royaume-Uni." },
+];
 ---
-<Layout title="Entrée au Royaume-Uni - Guide pratique" description="Guide pratique pour entrer au Royaume-Uni : aéroports, Irlande du Nord, transit et correspondances.">
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-[#1e3a5f] mb-8">Entrée au Royaume-Uni</h1>
-    <p class="text-lg text-gray-600 mb-8">Informations pratiques pour les voyageurs français se rendant au Royaume-Uni.</p>
-    <div class="grid md:grid-cols-2 gap-4">
-      <a href="/entree-uk/aeroport-heathrow/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Aéroport de Heathrow</h2>
-        <p class="text-sm text-gray-600">Guide complet de l'aéroport de Londres-Heathrow : terminaux, transports et conseils.</p>
-      </a>
-      <a href="/entree-uk/irlande-du-nord/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Irlande du Nord et ETA</h2>
-        <p class="text-sm text-gray-600">L'ETA couvre-t-elle l'Irlande du Nord ? Règles de passage vers la République d'Irlande.</p>
-      </a>
-      <a href="/entree-uk/transit-correspondance/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Transit et correspondance</h2>
-        <p class="text-sm text-gray-600">Quand l'ETA est-elle nécessaire pour un transit par le Royaume-Uni ?</p>
-      </a>
-    </div>
-  </div>
-</Layout>
+<CategoryHub
+  title="Entrée au Royaume-Uni"
+  metaTitle="Entrée au Royaume-Uni - Guide pratique"
+  description="Préparez votre arrivée, vos correspondances et vos déplacements entre les différentes nations du Royaume-Uni."
+  eyebrow="Guide pratique"
+  items={items}
+/>

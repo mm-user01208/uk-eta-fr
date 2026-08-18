@@ -1,39 +1,19 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import CategoryHub from '../../components/CategoryHub.astro';
+const items = [
+  { title: "Qu'est-ce que l'ETA ?", href: '/eta/qu-est-ce-que-eta/', label: 'Comprendre', description: "Définition, fonctionnement et objectifs de l'autorisation de voyage électronique britannique." },
+  { title: 'Procédure de demande', href: '/eta/procedure-demande/', label: 'Démarches', description: "Les 4 étapes pour obtenir votre ETA, du formulaire jusqu'à la notification." },
+  { title: 'Tarifs et paiement', href: '/eta/tarif/', label: 'Budget', description: "Frais de demande, moyens de paiement acceptés et conditions d'annulation." },
+  { title: 'Pays éligibles', href: '/eta/pays-eligibles/', label: 'Éligibilité', description: "La liste à jour des nationalités et territoires pouvant demander une ETA." },
+  { title: 'Documents nécessaires', href: '/eta/documents-necessaires/', label: 'Préparation', description: "Passeport, photo d'identité et carte bancaire : tout ce qu'il faut préparer." },
+  { title: 'Validité et délais', href: '/eta/validite-et-delai/', label: 'Calendrier', description: "Durée de validité, entrées multiples et délais de traitement à prévoir." },
+  { title: 'Questions fréquentes', href: '/eta/faq/', label: 'Aide', description: "Les réponses aux questions les plus courantes sur l'ETA britannique." },
+];
 ---
-<Layout title="ETA Royaume-Uni - Tout savoir sur l'autorisation de voyage" description="Guide complet sur l'ETA (Electronic Travel Authorisation) pour le Royaume-Uni : procédure, tarifs, documents, pays éligibles.">
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-[#1e3a5f] mb-8">ETA Royaume-Uni</h1>
-    <p class="text-lg text-gray-600 mb-8">Retrouvez toutes les informations essentielles sur l'autorisation de voyage électronique (ETA) pour le Royaume-Uni.</p>
-    <div class="grid md:grid-cols-2 gap-4">
-      <a href="/eta/qu-est-ce-que-eta/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Qu'est-ce que l'ETA ?</h2>
-        <p class="text-sm text-gray-600">Définition, fonctionnement et objectifs de l'autorisation de voyage électronique britannique.</p>
-      </a>
-      <a href="/eta/procedure-demande/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Procédure de demande</h2>
-        <p class="text-sm text-gray-600">Les 4 étapes pour obtenir votre ETA, du formulaire à la notification.</p>
-      </a>
-      <a href="/eta/tarif/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Tarifs et paiement</h2>
-        <p class="text-sm text-gray-600">Détail des frais, moyens de paiement acceptés et politique d'annulation.</p>
-      </a>
-      <a href="/eta/pays-eligibles/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Pays éligibles</h2>
-        <p class="text-sm text-gray-600">Liste à jour des 83 nationalités et territoires pouvant demander une ETA.</p>
-      </a>
-      <a href="/eta/documents-necessaires/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Documents nécessaires</h2>
-        <p class="text-sm text-gray-600">Passeport, photo d'identité, carte de crédit : tout ce qu'il faut préparer.</p>
-      </a>
-      <a href="/eta/validite-et-delai/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Validité et délais</h2>
-        <p class="text-sm text-gray-600">Durée de validité de l'ETA, entrées multiples et délais de traitement.</p>
-      </a>
-      <a href="/eta/faq/" class="block border rounded-lg p-6 hover:bg-gray-50 transition">
-        <h2 class="font-bold text-[#1e3a5f] mb-2">Questions fréquentes</h2>
-        <p class="text-sm text-gray-600">Réponses aux questions les plus courantes sur l'ETA britannique.</p>
-      </a>
-    </div>
-  </div>
-</Layout>
+<CategoryHub
+  title="ETA Royaume-Uni"
+  metaTitle="ETA Royaume-Uni - Tout savoir sur l'autorisation de voyage"
+  description="Retrouvez toutes les informations essentielles sur l'autorisation de voyage électronique (ETA) pour préparer votre séjour au Royaume-Uni."
+  eyebrow="Guide ETA"
+  items={items}
+/>

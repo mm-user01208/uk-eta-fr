@@ -139,10 +139,10 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
 
       <article class="article-content">
         <h1>{title}</h1>
-        <details class="article-toc article-mobile-toc article-sidebar-card">
-          <summary>Sur cette page</summary>
+        <nav class="article-toc article-mobile-toc article-sidebar-card" aria-label="Sommaire">
+          <h2>Sur cette page</h2>
           <ol data-article-toc data-toc-variant="mobile"></ol>
-        </details>
+        </nav>
         <slot />
       </article>
     </div>
@@ -185,7 +185,7 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
   const tocLists = [...document.querySelectorAll('[data-article-toc]')];
 
   if (content instanceof HTMLElement && tocLists.length > 0) {
-    const headings = [...content.querySelectorAll('h2, h3')];
+    const headings = [...content.querySelectorAll(':scope > h2, :scope > h3')];
     const usedIds = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));
 
     const createHeadingLink = (heading: HTMLHeadingElement, fallbackIndex: number) => {
@@ -217,7 +217,7 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
     });
 
     const mobileToc = content.querySelector('.article-mobile-toc');
-    if (mobileToc instanceof HTMLDetailsElement) {
+    if (mobileToc instanceof HTMLElement) {
       const children = [...content.children];
       const firstSectionIndex = children.findIndex((element) => element.tagName === 'H2');
       const introCandidates = firstSectionIndex === -1 ? children : children.slice(0, firstSectionIndex);
@@ -300,9 +300,6 @@ const relatedCards = visibleRelatedArticles.map((article, index) => ({
           toggle.setAttribute('aria-label', 'Masquer les sous-sections');
         }
 
-        if (currentLink && mobileToc instanceof HTMLDetailsElement && mobileToc.contains(toc)) {
-          mobileToc.open = true;
-        }
       };
 
       revealCurrentHash();
