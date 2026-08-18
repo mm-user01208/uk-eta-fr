@@ -7,7 +7,6 @@ interface Props {
   topPage?: boolean;
   headerDescription?: string;
   legacyHeaderHtml?: string;
-  legacyDesktopNavHtml?: string;
   legacyMainHtml?: string;
   legacyFooterFixedHtml?: string;
 }
@@ -20,7 +19,6 @@ const {
   topPage = false,
   headerDescription = 'Faire la demande d’ETA：UK ETA application site',
   legacyHeaderHtml,
-  legacyDesktopNavHtml,
   legacyMainHtml,
   legacyFooterFixedHtml,
 } = Astro.props;
@@ -28,7 +26,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import SiteFooter from '../components/SiteFooter.astro';
 import { siteNavigationSections } from '../content/site-navigation';
 import '../styles/global.css';
-const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
 ---
 
 <!doctype html>
@@ -155,7 +152,7 @@ const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
     </div>
   </header>}
 
-  {legacyDesktopNavHtml ? <Fragment set:html={legacyDesktopNavHtml} /> : <nav class="global-nav pc-only" aria-label="Navigation principale">
+  <nav class="global-nav pc-only" aria-label="Navigation principale">
     <ul class="global-nav-main">
       <li><a href="/">ETA Royaume-Uni</a></li>
       <li><a href="/entry/">Demander l'ETA</a></li>
@@ -179,7 +176,7 @@ const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
         ))}
       </div>
     </div>
-  </nav>}
+  </nav>
 
   <nav id="global-nav-sp" class="global-nav sp-only mobile-site-nav" aria-label="Navigation mobile" aria-hidden="true">
     <ul class="mobile-nav-primary">
@@ -187,9 +184,20 @@ const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
       <li><a href="/entry/"><span>Demander l'ETA</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
       <li><a href="/status/"><span>Vérifier la demande</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
       <li><a href="/contact/"><span>Contact</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+      <li class="mobile-nav-faq">
+        <button
+          id="mobile-nav-faq-toggle"
+          class="mobile-nav-faq-toggle"
+          type="button"
+          aria-controls="mobile-nav-directory"
+          aria-expanded="false"
+        >
+          <span>FAQ</span>
+          <span class="mobile-nav-faq-symbol" aria-hidden="true">+</span>
+        </button>
+      </li>
     </ul>
-    <div class="mobile-nav-directory">
-      <p class="mobile-nav-directory-title">Guides et informations</p>
+    <div id="mobile-nav-directory" class="mobile-nav-directory" hidden>
       {siteNavigationSections.map((section) => (
         <section class="mobile-nav-section">
           <div class="mobile-nav-section-heading">
@@ -205,11 +213,9 @@ const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
             </button>
           </div>
           <ul id={`mobile-nav-${section.id}`} class="mobile-nav-section-links" hidden>
-            {section.links
-              .filter((link) => link.href !== section.href && !mobilePrimaryHrefs.has(link.href))
-              .map((link) => (
-                <li><a href={link.href}><span>{link.label}</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
-              ))}
+            {section.links.map((link) => (
+              <li><a href={link.href}><span>{link.label}</span><i class="icon icon-rightarrow" aria-hidden="true"></i></a></li>
+            ))}
           </ul>
         </section>
       ))}
@@ -287,6 +293,16 @@ const mobilePrimaryHrefs = new Set(['/', '/entry/', '/status/', '/contact/']);
       desktopNav?.addEventListener('focusout', (event) => {
         const nextTarget = event.relatedTarget;
         if (!(nextTarget instanceof Node) || !desktopNav.contains(nextTarget)) scheduleDesktopNavClose();
+      });
+
+      const mobileFaqToggle = menu.querySelector('.mobile-nav-faq-toggle');
+      const mobileDirectory = document.getElementById('mobile-nav-directory');
+      mobileFaqToggle?.addEventListener('click', () => {
+        if (!(mobileFaqToggle instanceof HTMLButtonElement) || !(mobileDirectory instanceof HTMLElement)) return;
+        const open = mobileFaqToggle.getAttribute('aria-expanded') !== 'true';
+        mobileFaqToggle.setAttribute('aria-expanded', String(open));
+        mobileDirectory.hidden = !open;
+        mobileFaqToggle.querySelector('.mobile-nav-faq-symbol')?.replaceChildren(open ? '−' : '+');
       });
 
       for (const toggle of menu.querySelectorAll('.mobile-nav-directory-toggle')) {

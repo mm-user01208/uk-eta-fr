@@ -13,7 +13,6 @@ The production WordPress site at `https://eudiasporacouncil.org` is the authorit
 - `/agreement/`
 - `/service/`
 - `/mentions-legales/`
-- `/sitemap/`
 - `/page_cat/uketa/`
 - `/page_cat/site/`
 
@@ -23,7 +22,7 @@ These routes render from `src/content/wordpress-snapshots.ts` through `src/layou
 
 Do not rewrite, shorten, translate, replace, reorder, add to, or remove any protected page text, image, or link. Do not substitute an SEO article for an existing WordPress page. Changes to protected content require explicit approval.
 
-The shared footer navigation is an approved exception as of 2026-08-07. It is maintained as a site-wide Astro component so all 26 canonical pages can be reached through the four footer categories. This exception does not permit changes to protected main content, images, or in-page links.
+The shared footer navigation is an approved exception as of 2026-08-07. The shared desktop and mobile navigation and the French `/sitemap/` replacement are approved exceptions as of 2026-08-18. These shared elements are maintained from the canonical Astro page inventory so all 26 canonical pages remain reachable. These exceptions do not permit changes to other protected main content, images, or in-page links.
 
 ## Refresh procedure
 
@@ -36,4 +35,4 @@ npm run build
 
 After refreshing, compare every protected route against WordPress at desktop width. Verify normalized main text, image `src`/`srcset`, link text/targets, title, description, page chrome, and visual layout before deploying.
 
-The WordPress source currently references `/wp-content/themes/uketa-fr/images/sitemap/sitemap-title-bg-1024x362.jpg`, which returns HTTP 404. Its reference is retained unchanged so the migration does not silently substitute or alter source information.
+The archived WordPress sitemap referenced `/wp-content/themes/uketa-fr/images/sitemap/sitemap-title-bg-1024x362.jpg`, which returned HTTP 404, and contained stale Japanese ETIAS navigation. The snapshot remains in migration data for history, but `/sitemap/` now renders a maintained French Astro page.

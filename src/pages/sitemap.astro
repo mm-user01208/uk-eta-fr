@@ -1,5 +1,68 @@
 ---
-import WordPressSnapshot from '../layouts/WordPressSnapshot.astro';
+import Layout from '../layouts/Layout.astro';
+import { siteNavigationSections } from '../content/site-navigation';
+
+const primaryPages = [
+  { href: '/', label: 'Accueil — ETA Royaume-Uni' },
+  { href: '/entry/', label: "Demander l'ETA" },
+  { href: '/status/', label: 'Vérifier la demande' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+const seenHrefs = new Set(primaryPages.map((page) => page.href));
+const sitemapSections = siteNavigationSections.map((section) => {
+  const links = [
+    { href: section.href, label: `Vue d’ensemble — ${section.title}` },
+    ...section.links,
+  ].filter((link) => {
+    if (seenHrefs.has(link.href)) return false;
+    seenHrefs.add(link.href);
+    return true;
+  });
+
+  return { ...section, links };
+});
+
+const canonicalPageCount = seenHrefs.size;
 ---
 
-<WordPressSnapshot path="/sitemap/" />
+<Layout
+  title="Plan du site — UK ETA Application Site"
+  description="Plan du site UK ETA : retrouvez toutes les pages d'information sur l'ETA, l'entrée au Royaume-Uni, les visas et notre service."
+  bodyClass="sitemap-page"
+>
+  <div class="sitemap-shell">
+    <nav class="sitemap-breadcrumbs" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a><span aria-hidden="true">›</span><span>Plan du site</span>
+    </nav>
+
+    <header class="sitemap-hero">
+      <p class="sitemap-eyebrow">Navigation</p>
+      <h1>Plan du site</h1>
+      <p>Accédez à l’ensemble des informations disponibles sur notre site.</p>
+      <span>{canonicalPageCount} pages en français</span>
+    </header>
+
+    <div class="sitemap-directory">
+      <section class="sitemap-section" aria-labelledby="sitemap-primary-title">
+        <h2 id="sitemap-primary-title">Pages principales</h2>
+        <ul>
+          {primaryPages.map((page) => (
+            <li><a href={page.href}><span>{page.label}</span><span aria-hidden="true">›</span></a></li>
+          ))}
+        </ul>
+      </section>
+
+      {sitemapSections.map((section) => (
+        <section class="sitemap-section" aria-labelledby={`sitemap-${section.id}-title`}>
+          <h2 id={`sitemap-${section.id}-title`}><a href={section.href}>{section.title}</a></h2>
+          <ul>
+            {section.links.map((link) => (
+              <li><a href={link.href}><span>{link.label}</span><span aria-hidden="true">›</span></a></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</Layout>

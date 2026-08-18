@@ -113,6 +113,8 @@ deployment.
 
 ## Separate content issue retained from the workbook
 
+Resolved on 2026-08-18: `/sitemap/` now renders a maintained French Astro page generated from the shared canonical navigation inventory. The notes below describe the historical state found during this audit.
+
 `/sitemap/` still has a Japanese title and H1 and no meta description. This is
 the same on both hosts and is therefore a content/SEO task, not a deployment
 difference. Browser rendering also confirmed that its body still contains old
