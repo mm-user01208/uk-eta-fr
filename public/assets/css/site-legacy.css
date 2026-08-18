@@ -213,6 +213,8 @@ footer .common-nav p { font-size: 1.6rem; }
 .article-content p { margin: 0 0 20px; }
 .article-content ul,
 .article-content ol { margin: 0 0 24px; padding-left: 28px; }
+.article-content ul:not([data-article-toc]):not(.article-toc-sublist) > li { list-style-type: disc; }
+.article-content ol:not([data-article-toc]):not(.article-toc-sublist) > li { list-style-type: decimal; }
 .article-content li { margin: 5px 0; }
 .article-content a { color: #195a9b; text-decoration: underline; text-underline-offset: 2px; }
 .article-content h2,

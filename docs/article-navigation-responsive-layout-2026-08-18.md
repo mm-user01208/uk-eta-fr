@@ -17,3 +17,7 @@ The first responsive implementation wrapped the mobile table of contents in a ge
 ## Scope
 
 The behavior is implemented in the shared `ArticleLayout.astro`, so it applies to every lower-level article that uses this layout.
+
+## Article list markers
+
+Tailwind's reset removes browser-default list markers. Shared article styles explicitly restore disc markers for unordered content lists and decimal markers for ordered content lists. Table-of-contents lists remain unmarked because they use their own navigation design.
