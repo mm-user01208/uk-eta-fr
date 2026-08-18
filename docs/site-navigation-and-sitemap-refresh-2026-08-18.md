@@ -14,12 +14,13 @@ All labels and URLs come from `src/content/site-navigation.ts`, which is also us
 
 ## French HTML sitemap
 
-`/sitemap/` no longer renders the archived Japanese WordPress snapshot. It now provides a French HTML sitemap containing all 26 canonical pages, grouped into:
+`/sitemap/` no longer renders the archived Japanese WordPress snapshot. It now provides a French HTML sitemap containing all 26 canonical pages, grouped into four content categories:
 
-- primary pages;
 - ETA information;
 - UK entry information;
 - UK visa information;
 - site information.
 
-Duplicate links shared between primary navigation and category data are removed from the sitemap display. The seven legacy URL aliases are intentionally excluded because their canonical replacements are listed.
+The application and status pages are grouped with ETA information instead of appearing in a separate generic primary-pages block. Contact and service-policy pages remain under site information. The seven legacy URL aliases are intentionally excluded because their canonical replacements are listed.
+
+The mobile FAQ menu uses one consistent horizontal separator weight. The category expand buttons have no vertical divider, avoiding the unnecessary boxed-column effect around the plus controls.

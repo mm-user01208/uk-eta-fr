@@ -2,28 +2,36 @@
 import Layout from '../layouts/Layout.astro';
 import { siteNavigationSections } from '../content/site-navigation';
 
-const primaryPages = [
-  { href: '/', label: 'Accueil — ETA Royaume-Uni' },
-  { href: '/entry/', label: "Demander l'ETA" },
-  { href: '/status/', label: 'Vérifier la demande' },
-  { href: '/contact/', label: 'Contact' },
-];
+const etaActionHrefs = new Set(['/entry/', '/status/']);
+const etaActionLinks = siteNavigationSections
+  .find((section) => section.id === 'site')
+  ?.links.filter((link) => etaActionHrefs.has(link.href)) ?? [];
 
-const seenHrefs = new Set(primaryPages.map((page) => page.href));
 const sitemapSections = siteNavigationSections.map((section) => {
-  const links = [
-    { href: section.href, label: `Vue d’ensemble — ${section.title}` },
-    ...section.links,
-  ].filter((link) => {
-    if (seenHrefs.has(link.href)) return false;
-    seenHrefs.add(link.href);
-    return true;
-  });
+  if (section.id === 'eta') {
+    return {
+      ...section,
+      links: [
+        section.links[0],
+        ...etaActionLinks,
+        ...section.links.slice(1),
+      ],
+    };
+  }
 
-  return { ...section, links };
+  if (section.id === 'site') {
+    return {
+      ...section,
+      links: section.links.filter((link) => !etaActionHrefs.has(link.href)),
+    };
+  }
+
+  return section;
 });
 
-const canonicalPageCount = seenHrefs.size;
+const canonicalPageCount = new Set(
+  sitemapSections.flatMap((section) => [section.href, ...section.links.map((link) => link.href)]),
+).size;
 ---
 
 <Layout
@@ -44,15 +52,6 @@ const canonicalPageCount = seenHrefs.size;
     </header>
 
     <div class="sitemap-directory">
-      <section class="sitemap-section" aria-labelledby="sitemap-primary-title">
-        <h2 id="sitemap-primary-title">Pages principales</h2>
-        <ul>
-          {primaryPages.map((page) => (
-            <li><a href={page.href}><span>{page.label}</span><span aria-hidden="true">›</span></a></li>
-          ))}
-        </ul>
-      </section>
-
       {sitemapSections.map((section) => (
         <section class="sitemap-section" aria-labelledby={`sitemap-${section.id}-title`}>
           <h2 id={`sitemap-${section.id}-title`}><a href={section.href}>{section.title}</a></h2>

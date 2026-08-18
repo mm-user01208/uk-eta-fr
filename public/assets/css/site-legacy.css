@@ -691,7 +691,7 @@ footer .common-nav p { font-size: 1.6rem; }
     align-items: center;
     min-height: 52px;
     padding: 0 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
     line-height: 1.45;
   }
   .mobile-site-nav a > span { font-size: 1.5rem; }
@@ -699,6 +699,7 @@ footer .common-nav p { font-size: 1.6rem; }
   .mobile-site-nav .mobile-nav-faq-toggle {
     width: 100%;
     color: #fff;
+    border-bottom: 0;
     text-align: left;
     background: transparent;
   }
@@ -720,7 +721,7 @@ footer .common-nav p { font-size: 1.6rem; }
     display: grid;
     place-items: center;
     color: #fff;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 0;
   }
   .mobile-nav-directory-toggle span { font-size: 2.2rem; line-height: 1; }
   .mobile-nav-section-links[hidden] { display: none; }
